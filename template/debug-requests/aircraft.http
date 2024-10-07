@@ -1,0 +1,15 @@
+### GET all aircrafts
+GET http://localhost:3000/aircrafts
+
+### GET aircraft by Id
+GET http://localhost:3000/aircrafts/abcd
+
+### Create aircraft
+POST http://localhost:3000/aircrafts
+Content-Type: application/json
+
+{
+"name":"OK-2564",
+"model":"Boeing 737-800",
+"capacity":160
+}
