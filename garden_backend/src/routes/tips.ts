@@ -7,6 +7,17 @@ import {
     deleteTip,
 } from "../controllers/tipController";
 import { protect } from "../middleware/authMiddleware";
+/**
+ * @swagger
+ * /tips:
+ *   get:
+ *     summary: Získání seznamu tipů
+ *     tags:
+ *       - Tipy
+ *     responses:
+ *       200:
+ *         description: Seznam tipů
+ */
 
 const router = express.Router();
 

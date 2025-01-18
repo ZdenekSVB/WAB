@@ -1,66 +1,31 @@
-version: '3.8'
-
+version: "3.9"
 services:
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27018:27017"
-    volumes:
-      - gardening-center-mongo:/data/db
-    networks:
-      - mongo-net
-
-  control:
+  backend:
     build:
-      context: gardening-center-control
+      context: ./garden_backend
+      dockerfile: Dockerfile
     ports:
-      - "5001:3000"
+      - "5000:5000"
     environment:
-      - PORT=3000
-      - MONGO_URL=mongodb://mongo:27017/gardening-center-control
-      - CORS_ORIGIN=http://localhost:5173
-      - TICKET_SERVICE_URL=localhost:50051
-      - KEYCLOAK_BASE_URL=http://localhost:8091
-      - KEYCLOAK_ISSUER_URL=http://localhost:8091
-      - VITE_KEYCLOAK_REALM=GARDENING-APP
-      - KEYCLOAK_CLIENT_ID=web-app
-    networks:
-      - mongo-net
+      - MONGO_URI=mongodb://mongo:27017/garden_db
+      - JWT_SECRET=your-jwt-secret
     depends_on:
       - mongo
 
   frontend:
     build:
-      context: gardening-center-frontend
-      args:
-        VITE_BACKEND_URL: http://localhost:5001
-        VITE_STATUS_BACKEND_URL: http://localhost:5003
-        VITE_KEYCLOAK_BASE_URL: http://localhost:8091
-        VITE_KEYCLOAK_REALM: GARDENING-APP
-        VITE_KEYCLOAK_CLIENT_ID: web-app
+      context: ./garden_frontend
+      dockerfile: Dockerfile
     ports:
-      - "5002:5173"
-    networks:
-      - frontend-net
+      - "8080:80"
 
-  status:
-    build:
-      context: gardening-center-status
+  mongo:
+    image: mongo:5
+    container_name: mongo
     ports:
-      - "5003:3003"
-    environment:
-      -PORT: 3003
-      -MONGO_URL: mongodb://localhost:27018/gardening-center-status
-      -CORS_ORIGIN: http://localhost:5173
-    networks:
-      - mongo-net
-    depends_on:
-      - mongo
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
 
 volumes:
-  gardening-center-mongo:
-
-networks:
-  mongo-net:
-  frontend-net:
+  mongo_data:

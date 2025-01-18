@@ -1,20 +1,18 @@
-/**
- * main.ts
- *
- * Bootstraps Vuetify and other plugins then mounts the App`
- */
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router'; // Import routeru
+import { initializeKeycloak } from "@/plugins/keycloak";  // Import Keycloak konfigurace
 
-// Plugins
-import { registerPlugins } from '@/plugins'
+// Inicializace Keycloak před spuštěním aplikace
+initializeKeycloak().then(() => {
+    const app = createApp(App);
 
-// Components
-import App from './App.vue'
+    // Použití routeru
+    app.use(router);
 
-// Composables
-import { createApp } from 'vue'
-
-const app = createApp(App)
-
-registerPlugins(app)
-
-app.mount('#app')
+    // Připojení aplikace
+    app.mount('#app');
+}).catch((error) => {
+    console.error("Chyba při autentizaci přes Keycloak:", error);
+    // Zde můžete přesměrovat na chybovou stránku nebo přihlašovací stránku
+});
