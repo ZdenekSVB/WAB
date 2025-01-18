@@ -1,0 +1,32 @@
+{
+  "users": {
+    "user_id": {
+      "email": "string",
+      "password": "hashed_password",
+      "name": "string",
+      "role": "user|admin",
+      "createdAt": "timestamp",
+      "updatedAt": "timestamp"
+    }
+  },
+  "plants": {
+    "plant_id": {
+      "name": "string",
+      "type": "string",
+      "imageUrl": "string",
+      "description": "string",
+      "createdBy": "user_id",
+      "createdAt": "timestamp",
+      "updatedAt": "timestamp"
+    }
+  },
+  "tips": {
+    "tip_id": {
+      "title": "string",
+      "content": "string",
+      "createdBy": "user_id",
+      "createdAt": "timestamp",
+      "updatedAt": "timestamp"
+    }
+  }
+}

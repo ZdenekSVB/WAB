@@ -11,7 +11,7 @@ services:
     networks:
       - mongo-net
 
-  gardening_backend:
+  control:
     build:
       context: gardening-center-control
     ports:
@@ -30,7 +30,7 @@ services:
     depends_on:
       - mongo
 
-  gardening_frontend:
+  frontend:
     build:
       context: gardening-center-frontend
       args:
@@ -44,7 +44,7 @@ services:
     networks:
       - frontend-net
 
-  gardening_status:
+  status:
     build:
       context: gardening-center-status
     ports:
@@ -52,7 +52,7 @@ services:
     environment:
       -PORT: 3003
       -MONGO_URL: mongodb://localhost:27018/gardening-center-status
-      -CORS_ORIGIN: http://localhost:5173,https://piehost.com
+      -CORS_ORIGIN: http://localhost:5173
     networks:
       - mongo-net
     depends_on:
