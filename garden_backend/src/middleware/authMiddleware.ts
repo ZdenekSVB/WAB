@@ -1,55 +1,37 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import jwksClient from "jwks-rsa";
-
-const client = jwksClient({
-    jwksUri: "http://localhost:8080/auth/realms/garden-realm/protocol/openid-connect/certs", // JWKS Keycloak
-});
-
-function getKey(header: jwt.JwtHeader, callback: jwt.SigningKeyCallback) {
-    client.getSigningKey(header.kid, (err, key) => {
-        const signingKey = key?.getPublicKey();
-        callback(err, signingKey);
-    });
-}
+import User, { IUser } from "../models/User";
 
 export const protect = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let token: string | undefined;
+    let token;
 
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+    // Získání tokenu z hlavičky
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
     }
 
     if (!token) {
-        res.status(401).json({ message: "Neautorizovaný přístup, chybí token" });
-        return;
+        res.status(401).json({ message: "Neautorizovaný přístup" });
+        return; // Ukončete middleware
     }
 
     try {
-        jwt.verify(
-            token,
-            getKey,
-            {
-                audience: "garden-backend",
-                issuer: "http://localhost:8080/auth/realms/garden-realm",
-            },
-            (err, decoded) => {
-                if (err) {
-                    res.status(401).json({ message: "Neautorizovaný přístup, neplatný token" });
-                    return;
-                }
+        // Ověření a dekódování tokenu
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
 
-                const user = decoded as any;
-                req.user = {
-                    id: user.sub, // Keycloak ID uživatele
-                    role: user.role || "user", // Volitelná role
-                    realm_access: user.realm_access, // Přidání rolí
-                };
+        // Najděte uživatele podle ID
+        const user = await User.findById(decoded.id).select("-password");
+        if (!user) {
+            res.status(404).json({ message: "Uživatel nenalezen" });
+            return; // Ukončete middleware
+        }
 
-                next();
-            }
-        );
+        // Připojte uživatele k požadavku
+        req.user = user as IUser;
+
+        next(); // Pokračujte na další middleware
     } catch (error) {
-        res.status(401).json({ message: "Neautorizovaný přístup, neplatný token" });
+        const message = error instanceof Error ? error.message : "Chyba při ověřování tokenu";
+        res.status(401).json({ message });
     }
 };

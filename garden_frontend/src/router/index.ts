@@ -6,70 +6,53 @@ import Plants from '@/views/Plants.vue';
 import PlantDetail from '@/views/PlantDetail.vue';
 import Tips from '@/views/Tips.vue';
 import AddTip from '@/views/AddTip.vue';
-import keycloak from '@/plugins/keycloak';  // Import Keycloak pro ochranu route
+import keycloak from '@/plugins/keycloak'; // Import Keycloak pro ochranu route
 
-// Import typu RouteRecordRaw pouze jako typ
 import type { RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 
-// Definice rout pro aplikaci
 const routes: RouteRecordRaw[] = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/login', name: 'Login', component: Login },
-  { path: '/register', name: 'Register', component: Register },
+  { path: '/', name: 'Home', component: Home }, // Veřejná stránka
+  { path: '/login', name: 'Login', component: Login }, // Veřejná stránka
+  { path: '/register', name: 'Register', component: Register }, // Veřejná stránka
   {
     path: '/plants',
     name: 'Plants',
     component: Plants,
-    beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      if (keycloak.authenticated) {
-        next();  // Pokud je uživatel přihlášen, umožníme přístup
-      } else {
-        next('/login');  // Přesměrování na login stránku
-      }
-    }
+    beforeEnter: protectRoute // Chráněná route
   },
   {
     path: '/plants/:id',
     name: 'PlantDetail',
     component: PlantDetail,
-    beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      if (keycloak.authenticated) {
-        next();  // Pokud je uživatel přihlášen, umožníme přístup
-      } else {
-        next('/login');  // Přesměrování na login stránku
-      }
-    }
+    beforeEnter: protectRoute // Chráněná route
   },
   {
     path: '/tips',
     name: 'Tips',
     component: Tips,
-    beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      if (keycloak.authenticated) {
-        next();  // Pokud je uživatel přihlášen, umožníme přístup
-      } else {
-        next('/login');  // Přesměrování na login stránku
-      }
-    }
+    beforeEnter: protectRoute // Chráněná route
   },
   {
     path: '/tips/add',
     name: 'AddTip',
     component: AddTip,
-    beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      if (keycloak.authenticated) {
-        next();  // Pokud je uživatel přihlášen, umožníme přístup
-      } else {
-        next('/login');  // Přesměrování na login stránku
-      }
-    }
+    beforeEnter: protectRoute // Chráněná route
   },
 ];
 
-// Vytvoření instance routeru s historií
+// Funkce pro ochranu chráněných cest
+function protectRoute(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+  if (keycloak.authenticated) {
+    next(); // Pokračuj, pokud je uživatel přihlášen
+  } else {
+    keycloak.login({ redirectUri: window.location.origin + to.fullPath }); // Přesměrování na Keycloak login
+  }
+}
+
+// Vytvoření routeru
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // Použití BASE_URL
-  routes, // Předání definovaných rout
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
 });
 
 // Zpracování chyb dynamického importu

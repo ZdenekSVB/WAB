@@ -1,90 +1,74 @@
-import express, { Application } from "express";
-import mongoose from "mongoose";
+import express, { Request, Response, NextFunction } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import cors from "cors";
-import http from "http";
-import { Server } from "socket.io";
+import connectDB from "./config/db";
 
-// Import express-session a Keycloak
-import session from "express-session";
-import { keycloak, memoryStore } from "./config/keycloak";
-
-// Import Swagger konfigurace
-import { setupSwagger } from "./config/swagger";
-
-// Načtení konfigurace
 dotenv.config();
-
-// Inicializace aplikace
-const app: Application = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "*",  // Nastavte správnou URL pro frontend
-        credentials: true, // Podporuje cookies, důležité pro session
-    },
-});
-
-// Middleware pro body
+const app = express();
 app.use(express.json());
 
-// Konfigurace CORS pro umožnění komunikace mezi backendem a frontendem
-app.use(cors({
-    origin: "http://localhost:8081",  // Nastavte URL, kde běží váš frontend (Vue.js)
-    credentials: true,               // Umožňuje sdílení cookies
-}));
+connectDB(); // Connect to MongoDB
 
-// Konfigurace session pro Keycloak
-app.use(
-    session({
-        secret: 'your-session-secret', // Tajný klíč pro session
-        resave: false,
-        saveUninitialized: true,
-        store: memoryStore, // Použití paměťového úložiště pro session
-    })
-);
+// In-memory storage for demo (replace with a database in production)
+const users: { email: string; password: string }[] = [];
 
-// Inicializace Keycloak middleware pro autentizaci
-app.use(keycloak.middleware());
+// Middleware for JWT Authentication
+const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
+    const token = req.headers.authorization?.split(" ")[1];
 
-// Inicializace Swagger dokumentace
-setupSwagger(app);
+    if (!token) {
+        res.status(401).json({ message: "Unauthorized" });
+        return;
+    }
 
-// Socket.IO události
-io.on("connection", (socket) => {
-    console.log("Uživatel připojen");
-
-    // Posílání aktualizací tipů
-    socket.on("newTip", (tip) => {
-        io.emit("tipUpdate", tip);
+    jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
+        if (err) {
+            res.status(403).json({ message: "Forbidden" });
+            return;
+        }
+        (req as any).user = user;
+        next();
     });
+};
 
-    socket.on("disconnect", () => {
-        console.log("Uživatel odpojen");
-    });
+// Registration Endpoint
+app.post("/register", async (req: Request, res: Response): Promise<void> => {
+    const { email, password } = req.body;
+
+    if (users.find((user) => user.email === email)) {
+        res.status(400).json({ message: "User already exists" });
+        return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    users.push({ email, password: hashedPassword });
+    res.status(201).json({ message: "User registered successfully" });
 });
 
-// Import cest
-import authRoutes from "./routes/auth";
-import plantRoutes from "./routes/plants";
-import tipRoutes from "./routes/tips";
+// Login Endpoint
+app.post("/login", async (req: Request, res: Response): Promise<void> => {
+    const { email, password } = req.body;
+    const user = users.find((user) => user.email === email);
 
-// Cesty s Keycloak ochranou
-app.use("/auth", authRoutes);
-app.use("/plants", keycloak.protect(), plantRoutes);  // Ochrana pro plants
-app.use("/tips", keycloak.protect(), tipRoutes);      // Ochrana pro tips
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        res.status(401).json({ message: "Invalid credentials" });
+        return;
+    }
 
-// Připojení k MongoDB
-mongoose
-    .connect(process.env.MONGO_URI as string)
-    .then(() => console.log("Připojeno k databázi"))
-    .catch((err) => {
-        console.error("Chyba při připojení k databázi:", err);
-        process.exit(1);
-    });
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+    res.json({ token });
+});
 
-// Spuštění serveru
+// Public Endpoint
+app.get("/", (req: Request, res: Response): void => {
+    res.send("Welcome to the public API!");
+});
+
+// Protected Endpoint
+app.get("/protected", authenticateJWT, (req: Request, res: Response): void => {
+    res.json({ message: `Hello, ${(req as any).user.email}` });
+});
+
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-    console.log(`Server běží na portu ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

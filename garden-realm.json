@@ -1,6 +1,6 @@
 {
   "id": "bef234a7-2133-480f-a058-d95771f01842",
-  "realm": "GARDENING-APP",
+  "realm": "GARDEN-APP",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -67,7 +67,7 @@
       },
       {
         "id": "644f723c-3dcd-4c4b-b29d-ec793900b971",
-        "name": "default-roles-gardening-app",
+        "name": "default-roles-garden-app",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -427,7 +427,7 @@
   "groups": [],
   "defaultRole": {
     "id": "644f723c-3dcd-4c4b-b29d-ec793900b971",
-    "name": "default-roles-gardening-app",
+    "name": "default-roles-garden-app",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
@@ -502,13 +502,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/GARDENING-APP/account/",
+      "baseUrl": "/realms/GARDEN-APP/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/GARDENING-APP/account/*"
+        "/realms/GARDEN-APP/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -549,13 +549,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/GARDENING-APP/account/",
+      "baseUrl": "/realms/GARDEN-APP/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/GARDENING-APP/account/*"
+        "/realms/GARDEN-APP/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -737,13 +737,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/GARDENING-APP/console/",
+      "baseUrl": "/admin/GARDEN-APP/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/GARDENING-APP/console/*"
+        "/admin/GARDEN-APP/console/*"
       ],
       "webOrigins": [
         "+"

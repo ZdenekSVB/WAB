@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 export interface IUser extends Document {
+    id: string; // Povinná vlastnost
     name: string;
     email: string;
     password: string;
@@ -28,7 +29,12 @@ userSchema.pre<IUser>("save", async function (next) {
 
 // Porovnání hesla
 userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    return bcrypt.compare(candidatePassword, this.password);
+    try {
+        return await bcrypt.compare(candidatePassword, this.password);
+    } catch (error) {
+        console.error("Error comparing passwords:", error);
+        throw new Error("Error comparing passwords");
+    }
 };
 
 export default mongoose.model<IUser>("User", userSchema);

@@ -6,18 +6,27 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/garden_db
-      - JWT_SECRET=your-jwt-secret
+    env_file:
+      - ./garden_backend/.env
     depends_on:
       - mongo
+      - keycloak
+    environment:
+      - KEYCLOAK_URL=http://keycloak:8080/auth
+      - MONGO_URI=mongodb://mongo:27017/garden_db
 
   frontend:
     build:
       context: ./garden_frontend
-      dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "3000:80"
+    environment:
+      - VITE_KEYCLOAK_URL=http://localhost:8081/auth
+      - VITE_KEYCLOAK_REALM=GARDEN-APP
+      - VITE_KEYCLOAK_CLIENT_ID=web-app
+    depends_on:
+      - keycloak
+
 
   mongo:
     image: mongo:5
@@ -27,5 +36,36 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0.1
+    container_name: keycloak
+    ports:
+      - "8081:8080" # Externí port (pro prohlížeč) mapován na interní Keycloak port
+    environment:
+      KEYCLOAK_ADMIN: admin # Nastavení administrátora
+      KEYCLOAK_ADMIN_PASSWORD: admin # Heslo administrátora
+      KC_DB: postgres # Použití PostgreSQL jako trvalé databáze
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HOSTNAME: localhost
+    depends_on:
+      - postgres
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    command: start-dev # Použití vývojového režimu
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
 volumes:
   mongo_data:
+  keycloak_data:
+  postgres_data:

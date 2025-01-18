@@ -38,30 +38,26 @@ export const createPlant = async (req: Request, res: Response): Promise<void> =>
     try {
         const { name, type, description, imageUrl } = req.body;
 
-        // Kontrola existence req.user
-        if (!req.user || !req.user.id) {
+        if (!req.user) {
             res.status(401).json({ message: "Neautorizovaný přístup" });
             return;
         }
 
-        const plant: IPlant = new Plant({
+        const plant = new Plant({
             name,
             type,
             description,
             imageUrl,
-            createdBy: req.user.id,
+            createdBy: req.user.id, // Typ je nyní jistý
         });
 
         const savedPlant = await plant.save();
         res.status(201).json(savedPlant);
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ message: "Chyba serveru", error: error.message });
-        } else {
-            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
-        }
+        res.status(500).json({ message: "Chyba serveru", error: error instanceof Error ? error.message : "Neznámá chyba" });
     }
 };
+
 
 // Aktualizace rostliny
 export const updatePlant = async (req: Request, res: Response): Promise<void> => {

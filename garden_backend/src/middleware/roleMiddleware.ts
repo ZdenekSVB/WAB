@@ -1,22 +1,11 @@
-import {Request, Response, NextFunction} from "express";
+import { Request, Response, NextFunction } from "express";
 
-// Middleware pro kontrolu role
-export const authorize =
+export const roleMiddleware =
     (...roles: string[]) =>
         (req: Request, res: Response, next: NextFunction): void => {
-            if (!req.user) {
-                res.status(401).json({ message: "Neautorizovaný přístup" });
+            if (!req.user || !roles.includes(req.user.role)) {
+                res.status(403).json({ message: "Access denied" });
                 return;
             }
-
-            const userRoles = req.user.realm_access?.roles || [];
-            if (!roles.some((role) => userRoles.includes(role))) {
-                res.status(403).json({ message: "Přístup odepřen: Nedostatečná oprávnění" });
-                return;
-            }
-
             next();
         };
-
-
-export const roleMiddleware = authorize;

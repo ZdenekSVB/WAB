@@ -1,17 +1,15 @@
 import { JwtPayload } from "jsonwebtoken";
+import { IUser } from "../models/User";
 
 declare global {
     namespace Express {
-        export interface User {
+        interface User {
             id: string;
             role: string;
-            realm_access?: {
-                roles: string[]; // Keycloak `realm_access` obsahuje seznam rolí
-            };
         }
 
-        export interface Request {
-            user?: User; // Volitelná vlastnost pro uživatele
+        interface Request {
+            user?: IUser; // Volitelný uživatel
         }
     }
 }
