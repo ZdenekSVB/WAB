@@ -23,9 +23,9 @@ app.use("/auth", authRoutes);
 app.use("/plants", plantRoutes);
 app.use("/tips", tipRoutes);
 
-// Připojení k MongoDB
+// Připojení k MongoDB (odstraněny zbytečné možnosti)
 mongoose
-    .connect(process.env.MONGO_URI as string, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(process.env.MONGO_URI as string)
     .then(() => console.log("Připojeno k databázi"))
     .catch((err) => {
         console.error("Chyba při připojení k databázi:", err);

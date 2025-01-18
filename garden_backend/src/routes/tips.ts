@@ -10,6 +10,7 @@ import { protect } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
+// Použití protect middleware pro ochranu endpointů
 router.get("/", protect, getTips);
 router.get("/:id", protect, getTipById);
 router.post("/", protect, createTip);

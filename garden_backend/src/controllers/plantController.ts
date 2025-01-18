@@ -1,28 +1,48 @@
 import { Request, Response } from "express";
 import Plant, { IPlant } from "../models/Plant";
 
-export const getPlants = async (req: Request, res: Response) => {
+// Získání všech rostlin
+export const getPlants = async (req: Request, res: Response): Promise<void> => {
     try {
         const plants = await Plant.find();
-        res.json(plants);
+        res.json(plants); // Poslání odpovědi bez návratu
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };
 
-export const getPlantById = async (req: Request, res: Response) => {
+// Získání rostliny podle ID
+export const getPlantById = async (req: Request, res: Response): Promise<void> => {
     try {
         const plant = await Plant.findById(req.params.id);
-        if (!plant) return res.status(404).json({ message: "Rostlina nenalezena" });
+        if (!plant) {
+            res.status(404).json({ message: "Rostlina nenalezena" });
+            return;
+        }
         res.json(plant);
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };
 
-export const createPlant = async (req: Request, res: Response) => {
+// Vytvoření nové rostliny
+export const createPlant = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, type, description, imageUrl } = req.body;
+
+        // Kontrola existence req.user
+        if (!req.user || !req.user.id) {
+            res.status(401).json({ message: "Neautorizovaný přístup" });
+            return;
+        }
 
         const plant: IPlant = new Plant({
             name,
@@ -35,26 +55,46 @@ export const createPlant = async (req: Request, res: Response) => {
         const savedPlant = await plant.save();
         res.status(201).json(savedPlant);
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };
 
-export const updatePlant = async (req: Request, res: Response) => {
+// Aktualizace rostliny
+export const updatePlant = async (req: Request, res: Response): Promise<void> => {
     try {
         const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedPlant) return res.status(404).json({ message: "Rostlina nenalezena" });
+        if (!updatedPlant) {
+            res.status(404).json({ message: "Rostlina nenalezena" });
+            return;
+        }
         res.json(updatedPlant);
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };
 
-export const deletePlant = async (req: Request, res: Response) => {
+// Smazání rostliny
+export const deletePlant = async (req: Request, res: Response): Promise<void> => {
     try {
         const deletedPlant = await Plant.findByIdAndDelete(req.params.id);
-        if (!deletedPlant) return res.status(404).json({ message: "Rostlina nenalezena" });
+        if (!deletedPlant) {
+            res.status(404).json({ message: "Rostlina nenalezena" });
+            return;
+        }
         res.json({ message: "Rostlina byla smazána" });
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };

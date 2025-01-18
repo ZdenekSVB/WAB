@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User, { IUser } from "../models/User";
 import jwt from "jsonwebtoken";
 
+// Registrace uživatele
 export const registerUser = async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
@@ -14,10 +15,15 @@ export const registerUser = async (req: Request, res: Response) => {
 
         res.status(201).json({ message: "Uživatel registrován" });
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };
 
+// Přihlášení uživatele
 export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -31,6 +37,10 @@ export const loginUser = async (req: Request, res: Response) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: "1d" });
         res.json({ message: "Přihlášení úspěšné", token });
     } catch (error) {
-        res.status(500).json({ message: "Chyba serveru", error: error.message });
+        if (error instanceof Error) {
+            res.status(500).json({ message: "Chyba serveru", error: error.message });
+        } else {
+            res.status(500).json({ message: "Chyba serveru", error: "Neznámá chyba" });
+        }
     }
 };

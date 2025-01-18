@@ -10,7 +10,7 @@ import { protect } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-router.get("/", protect, getPlants);
+router.get("/", protect, getPlants); // Ověřte, zda je `protect` middleware aplikováno správně
 router.get("/:id", protect, getPlantById);
 router.post("/", protect, createPlant);
 router.put("/:id", protect, updatePlant);
