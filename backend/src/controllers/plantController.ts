@@ -36,6 +36,7 @@ const getPlant = async (req: Request, res: Response) => {
   }
 };
 
+// POST a new plant
 const createPlant = async (req: AuthenticatedRequest, res: Response) => {
   const { name, species, wateringFrequency, imageUrl } = req.body;
 
@@ -48,6 +49,7 @@ const createPlant = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 
+// UPDATE a plant
 const updatePlant = async (req: AuthenticatedRequest, res: Response) => {
   const { id } = req.params;
   const { name, species, wateringFrequency, imageUrl } = req.body;
@@ -67,6 +69,7 @@ const updatePlant = async (req: AuthenticatedRequest, res: Response) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 // DELETE a plant
 const deletePlant = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -87,8 +90,6 @@ const deletePlant = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
-
-
 
 export default {
   createPlant,

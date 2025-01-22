@@ -1,35 +1,36 @@
 import mongoose, { Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import jwt from 'jsonwebtoken';
 
 const Schema = mongoose.Schema;
 
 interface IUser extends Document {
+  _id: string;
   email: string;
   password: string;
+  token?: string;
 }
 
 interface UserModel extends Model<IUser> {
   signup(email: string, password: string): Promise<IUser>;
-  login(email: string, password: string): Promise<IUser>;
+  login(email: string, password: string): Promise<{ user: IUser; token: string }>;
 }
 
 const userSchema = new Schema<IUser>({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 // static signup method
 userSchema.statics.signup = async function(email: string, password: string): Promise<IUser> {
-
-  // validation
   if (!email || !password) {
     throw Error('All fields must be filled');
   }
@@ -41,7 +42,6 @@ userSchema.statics.signup = async function(email: string, password: string): Pro
   }
 
   const exists = await this.findOne({ email });
-
   if (exists) {
     throw Error('Email already in use');
   }
@@ -50,30 +50,27 @@ userSchema.statics.signup = async function(email: string, password: string): Pro
   const hash = await bcrypt.hash(password, salt);
 
   const user = await this.create({ email, password: hash });
-
   return user;
-}
+};
 
 // static login method
-userSchema.statics.login = async function(email: string, password: string): Promise<IUser> {
-
+userSchema.statics.login = async function(email: string, password: string): Promise<{ user: IUser; token: string }> {
   if (!email || !password) {
     throw Error('All fields must be filled');
   }
 
   const user = await this.findOne({ email });
-
   if (!user) {
     throw Error('Incorrect email');
   }
 
   const match = await bcrypt.compare(password, user.password);
-
   if (!match) {
     throw Error('Incorrect password');
   }
 
-  return user;
-}
+  const token = jwt.sign({ _id: user._id }, process.env.SECRET as string, { expiresIn: '3d' });
+  return { user, token };
+};
 
 export default mongoose.model<IUser, UserModel>('User', userSchema);

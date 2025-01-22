@@ -1,32 +1,34 @@
-// backend/middleware/requireAuth.ts
-import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { Response, NextFunction } from 'express';
 import User from '../models/userModel';
 import { AuthenticatedRequest } from '../types';
 
-const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    res.status(401).json({ error: 'Authorization token required' });
-    return;
+    return res.status(401).json({ error: 'Authorization token required' });
   }
 
   const token = authorization.split(' ')[1];
 
   try {
-    const decodedToken = jwt.verify(token, process.env.SECRET as string) as { _id: string };
+    const decoded = jwt.verify(token, process.env.SECRET as string) as { _id: string };
+    const user = await User.findById(decoded._id).select('_id email');
 
-    const user = await User.findOne({ _id: decodedToken._id }).select('_id email');
     if (!user) {
-      res.status(401).json({ error: 'User not found' });
-      return;
+      return res.status(401).json({ error: 'User not found' });
     }
 
-    req.user = { _id: user._id.toString(), email: user.email, token }; // Přidejte všechny požadované vlastnosti
+    req.user = {
+      _id: user._id.toString(),
+      email: user.email,
+      token,
+    };
+
     next();
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(401).json({ error: 'Request is not authorized' });
   }
 };

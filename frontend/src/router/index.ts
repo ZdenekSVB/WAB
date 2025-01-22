@@ -4,7 +4,8 @@ import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
 import Plants from '../views/Plants.vue';
 import AddPlant from '../views/AddPlant.vue';
-import EditPlant from '../views/EditPlant.vue'; // Import nové stránky
+import EditPlant from '../views/EditPlant.vue';
+import Settings from '../views/Settings.vue';
 import { useAuthStore } from '../stores/authStore';
 
 const router = createRouter({
@@ -37,14 +38,26 @@ const router = createRouter({
     },
     {
       path: '/edit-plant/:id',
-      component: EditPlant, // Nová cesta pro úpravu rostliny
+      component: EditPlant,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/settings',
+      component: Settings,
       meta: { requiresAuth: true },
     },
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+
+  // Inicializace uživatele z localStorage
+  if (!authStore.user) {
+    authStore.initialize();
+  }
+
+  // Kontrola, zda je uživatel přihlášen
   if (to.meta.requiresAuth && !authStore.user) {
     next('/login');
   } else if (!to.meta.requiresAuth && authStore.user) {

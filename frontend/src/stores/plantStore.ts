@@ -35,7 +35,7 @@ export const usePlantStore = defineStore('plant', () => {
       plants.value = [response.data, ...plants.value];
     } catch (error) {
       console.error('Error creating plant:', error);
-      throw error; // Propagujte chybu, aby ji komponenta mohla zpracovat
+      throw error;
     }
   };
 
@@ -50,7 +50,7 @@ export const usePlantStore = defineStore('plant', () => {
       }
     } catch (error) {
       console.error('Error updating plant:', error);
-      throw error; // Propagujte chybu, aby ji komponenta mohla zpracovat
+      throw error;
     }
   };
 
@@ -62,7 +62,7 @@ export const usePlantStore = defineStore('plant', () => {
       plants.value = plants.value.filter((plant) => plant._id !== id);
     } catch (error) {
       console.error('Error deleting plant:', error);
-      throw error; // Propagujte chybu, aby ji komponenta mohla zpracovat
+      throw error;
     }
   };
 

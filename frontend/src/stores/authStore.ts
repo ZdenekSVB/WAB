@@ -1,4 +1,3 @@
-// frontend/stores/authStore.ts
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
@@ -15,23 +14,39 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email: string, password: string) {
       const response = await axios.post('/api/user/login', { email, password });
-      this.user = response.data; // Uložte uživatele do stavu
-      localStorage.setItem('user', JSON.stringify(response.data)); // Uložte uživatele do localStorage
+      this.user = response.data as User;
+      localStorage.setItem('user', JSON.stringify(response.data));
     },
     async signup(email: string, password: string) {
       const response = await axios.post('/api/user/signup', { email, password });
-      this.user = response.data; // Uložte uživatele do stavu
-      localStorage.setItem('user', JSON.stringify(response.data)); // Uložte uživatele do localStorage
+      this.user = response.data as User;
+      localStorage.setItem('user', JSON.stringify(response.data));
+    },
+    async updateUser(email: string, password: string) {
+      if (!this.user) {
+        throw new Error('User is not logged in');
+      }
+      const response = await axios.put(
+          '/api/user/update',
+          { email, password },
+          {
+            headers: {
+              Authorization: `Bearer ${this.user.token}`,
+            },
+          }
+      );
+      this.user = { ...this.user, email: response.data.email };
+      localStorage.setItem('user', JSON.stringify(this.user));
     },
     logout() {
-      this.user = null; // Odstraňte uživatele ze stavu
-      localStorage.removeItem('user'); // Odstraňte uživatele z localStorage
-      window.location.href = '/login'; // Přesměrujte uživatele na přihlašovací stránku
+      this.user = null;
+      localStorage.removeItem('user');
+      window.location.href = '/login';
     },
     initialize() {
       const user = localStorage.getItem('user');
       if (user) {
-        this.user = JSON.parse(user); // Inicializujte uživatele z localStorage
+        this.user = JSON.parse(user) as User;
       }
     },
   },

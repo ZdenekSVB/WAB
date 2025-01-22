@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import User from '../models/userModel';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import validator from 'validator';
+import { AuthenticatedRequest } from '../types';
 
 const createToken = (_id: string): string => {
   return jwt.sign({ _id }, process.env.SECRET as string, { expiresIn: '3d' });
@@ -12,12 +13,8 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: { email: string; password: string } = req.body;
 
   try {
-    const user = await User.login(email, password);
-
-    // create a token
-    const token: string = createToken(user._id);
-
-    res.status(200).json({ email, token });
+    const { user, token } = await User.login(email, password);
+    res.status(200).json({ email: user.email, token });
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
   }
@@ -29,14 +26,43 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const user = await User.signup(email, password);
-
-    // create a token
     const token: string = createToken(user._id);
-
-    res.status(200).json({ email, token });
+    res.status(200).json({ email: user.email, token });
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
   }
 };
 
-export { signupUser, loginUser };
+// update a user
+const updateUser = async (req: AuthenticatedRequest, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (email) {
+      user.email = email;
+    }
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    await user.save();
+
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET as string, { expiresIn: '3d' });
+    res.status(200).json({ email: user.email, token });
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+};
+
+export { signupUser, loginUser, updateUser };

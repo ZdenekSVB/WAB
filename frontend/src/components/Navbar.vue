@@ -2,15 +2,15 @@
   <v-app-bar color="primary" dark>
     <v-toolbar-title>
       <router-link to="/" class="text-white text-decoration-none">
-        Garden Buddy <!-- Změna názvu aplikace -->
+        Garden Buddy
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="user">
-      <v-btn text @click="$router.push('/plants')">Plants</v-btn> <!-- Změna z Workouts na Plants -->
-      <v-btn text @click="$router.push('/add-plant')">Add Plant</v-btn> <!-- Změna z Add Workout na Add Plant -->
+      <v-btn text @click="$router.push('/plants')">Plants</v-btn>
+      <v-btn text @click="$router.push('/add-plant')">Add Plant</v-btn>
       <v-btn text @click="handleLogout">Logout</v-btn>
-      <span class="ml-4">{{ user.email }}</span> <!-- Zobrazí e-mail uživatele -->
+      <v-btn text @click="$router.push('/settings')">{{ user.email }}</v-btn>
     </div>
     <div v-else>
       <v-btn text @click="$router.push('/login')">Login</v-btn>
@@ -31,7 +31,6 @@ export default defineComponent({
     const router = useRouter();
     const user = ref(authStore.user);
 
-    // Sledujte změny v authStore.user
     watch(
         () => authStore.user,
         (newUser) => {
@@ -41,7 +40,7 @@ export default defineComponent({
 
     const handleLogout = () => {
       authStore.logout();
-      router.push('/login'); // Přesměrování na přihlašovací stránku po odhlášení
+      router.push('/login');
     };
 
     return {
@@ -59,9 +58,5 @@ export default defineComponent({
 
 .text-white {
   color: white;
-}
-
-.ml-4 {
-  margin-left: 16px;
 }
 </style>

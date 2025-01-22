@@ -17,8 +17,8 @@ app.use(cors({
 }));
 
 // Zvýšení limitu velikosti těla požadavku na 10 MB
-app.use(express.json({ limit: '10mb' })); // Zvýšení limitu pro JSON
-app.use(express.urlencoded({ limit: '10mb', extended: true })); // Zvýšení limitu pro URL-encoded data
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Serving statických souborů ze složky 'uploads'
 const uploadsPath = path.join(__dirname, 'uploads');
