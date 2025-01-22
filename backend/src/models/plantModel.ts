@@ -4,8 +4,10 @@ interface IPlant extends Document {
   name: string;
   species: string;
   wateringFrequency: number;
-  imageUrl?: string; // Base64 řetězec
+  imageUrl?: string;
   user_id: string;
+  likes: number;
+  likedBy: string[];
 }
 
 const plantSchema: MongooseSchema<IPlant> = new MongooseSchema({
@@ -22,12 +24,20 @@ const plantSchema: MongooseSchema<IPlant> = new MongooseSchema({
     required: true,
   },
   imageUrl: {
-    type: String, // Base64 řetězec
+    type: String,
     required: false,
   },
   user_id: {
     type: String,
     required: true,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  likedBy: {
+    type: [String],
+    default: [],
   },
 }, { timestamps: true });
 

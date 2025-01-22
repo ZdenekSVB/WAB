@@ -1,41 +1,70 @@
 import express from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/user';
 import plantRoutes from './routes/plants';
+import messageRoutes from './routes/message'; // Importuj routy pro zprávy
+import Message from './models/messageModel'; // Importuj model zpráv
 import path from 'path';
 
 dotenv.config();
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:3000', // Povolení připojení z frontendu
+        methods: ['GET', 'POST'],
+    },
+});
 
-// Povolte CORS
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-}));
-
-// Zvýšení limitu velikosti těla požadavku na 10 MB
+// Middleware
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-// Serving statických souborů ze složky 'uploads'
+// Statické soubory
 const uploadsPath = path.join(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsPath));
 
-// Použijte user routes
+// Routy
 app.use('/api/user', userRoutes);
-
-// Použijte plant routes
 app.use('/api/plants', plantRoutes);
+app.use('/api', messageRoutes); // Použití rout pro zprávy
 
-// Spusťte server
+// Socket.IO připojení
+io.on('connection', (socket) => {
+    console.log('A user connected:', socket.id);
+
+    // Poslouchání zpráv v chatu
+    socket.on('sendMessage', async (message: { user: string; text: string }) => {
+        try {
+            const newMessage = new Message({
+                user: message.user,
+                text: message.text,
+            });
+            await newMessage.save();
+            io.emit('receiveMessage', message); // Odeslání zprávy všem klientům
+        } catch (error) {
+            console.error('Error saving message:', error);
+        }
+    });
+
+    // Odpojení uživatele
+    socket.on('disconnect', () => {
+        console.log('A user disconnected:', socket.id);
+    });
+});
+
+// Spuštění serveru
 mongoose
     .connect(process.env.MONGO_URI || '')
     .then(() => {
         console.log('Connected to the database');
-        app.listen(process.env.PORT || 4000, () => {
+        server.listen(process.env.PORT || 4000, () => {
             console.log(`Server is running on port ${process.env.PORT || 4000}`);
         });
     })

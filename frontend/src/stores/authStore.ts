@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', {
       });
       this.user = null;
       localStorage.removeItem('user');
-      window.location.href = '/login'; // Přesměrování na přihlašovací stránku
+      window.location.href = '/login';
     },
     logout() {
       this.user = null;

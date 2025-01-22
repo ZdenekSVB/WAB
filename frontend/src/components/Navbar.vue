@@ -7,8 +7,10 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="user">
-      <v-btn text @click="$router.push('/plants')">Plants</v-btn>
+      <v-btn text @click="$router.push('/plants')">My Plants</v-btn> <!-- Zobrazuje pouze rostliny uživatele -->
       <v-btn text @click="$router.push('/add-plant')">Add Plant</v-btn>
+      <v-btn text @click="$router.push('/chat')">Chat</v-btn>
+      <v-btn text @click="$router.push('/all-plants')">Browse Plants</v-btn> <!-- Zobrazuje všechny rostliny -->
       <v-btn text @click="handleLogout">Logout</v-btn>
       <v-btn text @click="$router.push('/settings')">{{ user.email }}</v-btn>
     </div>
@@ -31,6 +33,7 @@ export default defineComponent({
     const router = useRouter();
     const user = ref(authStore.user);
 
+    // Sleduj změny v authStore.user
     watch(
         () => authStore.user,
         (newUser) => {
@@ -38,6 +41,7 @@ export default defineComponent({
         }
     );
 
+    // Odhlášení uživatele
     const handleLogout = () => {
       authStore.logout();
       router.push('/login');

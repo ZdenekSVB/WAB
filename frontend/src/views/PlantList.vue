@@ -18,11 +18,16 @@
                 style="max-width: 100%; height: auto;"
             ></v-img>
             <p><strong>Added:</strong> {{ formatDate(plant.createdAt) }}</p>
-            <v-btn color="primary" @click="likePlant(plant._id)">
-              Like ({{ plant.likes || 0 }})
+            <p><strong>Likes:</strong> {{ plant.likes || 0 }}</p>
+            <v-btn
+                v-if="plant.user_id !== authStore.user?._id"
+                color="primary"
+                @click="likePlant(plant._id)"
+            >
+              Like
             </v-btn>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="plant.user_id === authStore.user?._id">
             <v-btn color="primary" @click="handleEdit(plant._id)" class="mr-2">Edit</v-btn>
             <v-btn color="error" @click="handleDelete(plant._id)">Delete</v-btn>
           </v-card-actions>
@@ -34,46 +39,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
-import { usePlantStore } from '../stores/plantStore';
-import { useAuthStore } from '../stores/authStore'; // Import authStore
+import { defineComponent, ref, onMounted } from 'vue';
+import { useAuthStore } from '../stores/authStore';
 import { formatDistanceToNow } from 'date-fns';
 import { useRouter } from 'vue-router';
-import { io } from 'socket.io-client';
+import axios from 'axios';
 
 export default defineComponent({
-  name: 'Plants',
+  name: 'PlantList',
   setup() {
-    const plantStore = usePlantStore();
-    const authStore = useAuthStore(); // Use authStore
+    const authStore = useAuthStore();
     const router = useRouter();
+    const plants = ref<any[]>([]);
     const loading = ref(true);
-    const socket = io('http://localhost:4000');
 
     onMounted(async () => {
-      await plantStore.fetchPlants();
+      await fetchPlants();
       loading.value = false;
-
-      socket.on('plantLiked', (plantId: string) => {
-        const plant = plantStore.plants.find((p) => p._id === plantId);
-        if (plant) {
-          plant.likes = (plant.likes || 0) + 1;
-        }
-      });
     });
+
+    const fetchPlants = async () => {
+      try {
+        const response = await axios.get('/api/plants/all');
+        plants.value = response.data;
+      } catch (error) {
+        console.error('Error fetching plants:', error);
+      }
+    };
 
     const formatDate = (date: string) => {
       return formatDistanceToNow(new Date(date), { addSuffix: true });
     };
 
-    const handleDelete = async (id: string) => {
+    const likePlant = async (plantId: string) => {
       try {
-        loading.value = true;
-        await plantStore.deletePlant(id);
+        await axios.post(`/api/plants/like/${plantId}`);
+        await fetchPlants(); // Obnov seznam rostlin po lajkování
       } catch (error) {
-        console.error('Error deleting plant:', error);
-      } finally {
-        loading.value = false;
+        console.error('Error liking plant:', error);
       }
     };
 
@@ -81,28 +84,23 @@ export default defineComponent({
       router.push(`/edit-plant/${id}`);
     };
 
-    const likePlant = (plantId: string) => {
-      const plant = plantStore.plants.find((p) => p._id === plantId);
-      const userId = authStore.user?._id; // Get the user ID
-
-      // Ensure userId is defined and the user is not liking their own plant
-      if (
-          plant &&
-          userId && // Check if userId is defined
-          plant.user_id !== userId && // User cannot like their own plant
-          !plant.likedBy?.includes(userId) // User hasn't already liked the plant
-      ) {
-        socket.emit('likePlant', plantId, userId); // Pass userId as a string
+    const handleDelete = async (id: string) => {
+      try {
+        await axios.delete(`/api/plants/${id}`);
+        await fetchPlants(); // Obnov seznam rostlin po smazání
+      } catch (error) {
+        console.error('Error deleting plant:', error);
       }
     };
 
     return {
-      plants: computed(() => plantStore.plants),
+      plants,
       loading,
       formatDate,
-      handleDelete,
-      handleEdit,
       likePlant,
+      handleEdit,
+      handleDelete,
+      authStore,
     };
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="text-h4 mb-4">Plants</h2>
+    <h2 class="text-h4 mb-4">My Plants</h2>
     <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
     <v-list v-else-if="plants.length > 0">
       <v-list-item v-for="plant in plants" :key="plant._id">
@@ -18,9 +18,7 @@
                 style="max-width: 100%; height: auto;"
             ></v-img>
             <p><strong>Added:</strong> {{ formatDate(plant.createdAt) }}</p>
-            <v-btn color="primary" @click="likePlant(plant._id)">
-              Like ({{ plant.likes || 0 }})
-            </v-btn>
+            <p><strong>Likes:</strong> {{ plant.likes || 0 }}</p>
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" @click="handleEdit(plant._id)" class="mr-2">Edit</v-btn>
@@ -34,75 +32,55 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
-import { usePlantStore } from '../stores/plantStore';
-import { useAuthStore } from '../stores/authStore'; // Import authStore
-import { formatDistanceToNow } from 'date-fns';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { io } from 'socket.io-client';
+import axios from 'axios';
+import { formatDistanceToNow } from 'date-fns';
 
 export default defineComponent({
-  name: 'Plants',
+  name: 'MyPlants',
   setup() {
-    const plantStore = usePlantStore();
-    const authStore = useAuthStore(); // Use authStore
     const router = useRouter();
+    const plants = ref<any[]>([]);
     const loading = ref(true);
-    const socket = io('http://localhost:4000');
 
     onMounted(async () => {
-      await plantStore.fetchPlants();
+      await fetchPlants();
       loading.value = false;
-
-      socket.on('plantLiked', (plantId: string) => {
-        const plant = plantStore.plants.find((p) => p._id === plantId);
-        if (plant) {
-          plant.likes = (plant.likes || 0) + 1;
-        }
-      });
     });
+
+    const fetchPlants = async () => {
+      try {
+        const response = await axios.get('/api/plants/my-plants');
+        plants.value = response.data;
+      } catch (error) {
+        console.error('Error fetching plants:', error);
+      }
+    };
 
     const formatDate = (date: string) => {
       return formatDistanceToNow(new Date(date), { addSuffix: true });
-    };
-
-    const handleDelete = async (id: string) => {
-      try {
-        loading.value = true;
-        await plantStore.deletePlant(id);
-      } catch (error) {
-        console.error('Error deleting plant:', error);
-      } finally {
-        loading.value = false;
-      }
     };
 
     const handleEdit = (id: string) => {
       router.push(`/edit-plant/${id}`);
     };
 
-    const likePlant = (plantId: string) => {
-      const plant = plantStore.plants.find((p) => p._id === plantId);
-      const userId = authStore.user?._id; // Get the user ID
-
-      // Ensure userId is defined and the user is not liking their own plant
-      if (
-          plant &&
-          userId && // Check if userId is defined
-          plant.user_id !== userId && // User cannot like their own plant
-          !plant.likedBy?.includes(userId) // User hasn't already liked the plant
-      ) {
-        socket.emit('likePlant', plantId, userId); // Pass userId as a string
+    const handleDelete = async (id: string) => {
+      try {
+        await axios.delete(`/api/plants/${id}`);
+        await fetchPlants(); // Obnov seznam rostlin po smazání
+      } catch (error) {
+        console.error('Error deleting plant:', error);
       }
     };
 
     return {
-      plants: computed(() => plantStore.plants),
+      plants,
       loading,
       formatDate,
-      handleDelete,
       handleEdit,
-      likePlant,
+      handleDelete,
     };
   },
 });

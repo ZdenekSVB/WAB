@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
-import Plants from '../views/Plants.vue';
+import BrowsePlants from '../views/BrowsePlants.vue';
 import AddPlant from '../views/AddPlant.vue';
 import EditPlant from '../views/EditPlant.vue';
 import Settings from '../views/Settings.vue';
+import Chat from '../views/Chat.vue'; // Importujte komponentu Chat
 import { useAuthStore } from '../stores/authStore';
+import MyPlants from '../views/MyPlants.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,11 +29,6 @@ const router = createRouter({
       meta: { requiresAuth: false },
     },
     {
-      path: '/plants',
-      component: Plants,
-      meta: { requiresAuth: true },
-    },
-    {
       path: '/add-plant',
       component: AddPlant,
       meta: { requiresAuth: true },
@@ -44,6 +41,21 @@ const router = createRouter({
     {
       path: '/settings',
       component: Settings,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/chat',
+      component: Chat, // Nová cesta pro chat
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/plants',
+      component: BrowsePlants,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/all-plants',
+      component: MyPlants,
       meta: { requiresAuth: true },
     },
   ],

@@ -10,6 +10,9 @@ interface Plant {
   wateringFrequency: number;
   imageUrl?: string;
   createdAt: string;
+  likes: number; // Add this line
+  likedBy: string[]; // Add this line
+  user_id: string; // Add this line
 }
 
 export const usePlantStore = defineStore('plant', () => {
