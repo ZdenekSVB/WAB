@@ -8,13 +8,15 @@
       <v-alert v-if="error" type="error" class="mt-4">{{ error }}</v-alert>
       <v-alert v-if="success" type="success" class="mt-4">{{ success }}</v-alert>
     </v-form>
+
+    <!-- Tlačítko pro smazání účtu -->
+    <v-btn color="error" class="mt-4" @click="handleDeleteAccount">Delete Account</v-btn>
   </v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useAuthStore } from '../stores/authStore';
-import axios from 'axios';
 
 export default defineComponent({
   name: 'Settings',
@@ -43,6 +45,17 @@ export default defineComponent({
       }
     };
 
+    const handleDeleteAccount = async () => {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        try {
+          await authStore.deleteUser();
+          success.value = 'Account deleted successfully';
+        } catch (err: any) {
+          error.value = err.response?.data?.error || 'An error occurred';
+        }
+      }
+    };
+
     return {
       email,
       password,
@@ -50,6 +63,7 @@ export default defineComponent({
       success,
       isLoading,
       handleSubmit,
+      handleDeleteAccount,
     };
   },
 });

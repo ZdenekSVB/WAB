@@ -2,6 +2,7 @@ import mongoose, { Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
+import Plant from './plantModel'; // Importujte model Plant
 
 const Schema = mongoose.Schema;
 
@@ -15,6 +16,7 @@ interface IUser extends Document {
 interface UserModel extends Model<IUser> {
   signup(email: string, password: string): Promise<IUser>;
   login(email: string, password: string): Promise<{ user: IUser; token: string }>;
+  deleteUser(userId: string): Promise<void>; // Přidáno
 }
 
 const userSchema = new Schema<IUser>({
@@ -71,6 +73,20 @@ userSchema.statics.login = async function(email: string, password: string): Prom
 
   const token = jwt.sign({ _id: user._id }, process.env.SECRET as string, { expiresIn: '3d' });
   return { user, token };
+};
+
+// static deleteUser method
+userSchema.statics.deleteUser = async function(userId: string): Promise<void> {
+  const user = await this.findById(userId);
+  if (!user) {
+    throw Error('User not found');
+  }
+
+  // Smazání všech rostlin uživatele
+  await Plant.deleteMany({ user_id: userId });
+
+  // Smazání uživatele
+  await this.deleteOne({ _id: userId });
 };
 
 export default mongoose.model<IUser, UserModel>('User', userSchema);

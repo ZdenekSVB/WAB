@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <h2>Welcome to Workout Buddy</h2>
+    <h2>Welcome to Garden Buddy</h2>
     <p>You are logged in as {{ user?.email }}.</p>
-    <router-link to="/workouts">View Workouts</router-link>
   </div>
 </template>
 

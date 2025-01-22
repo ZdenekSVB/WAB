@@ -38,6 +38,19 @@ export const useAuthStore = defineStore('auth', {
       this.user = { ...this.user, email: response.data.email };
       localStorage.setItem('user', JSON.stringify(this.user));
     },
+    async deleteUser() {
+      if (!this.user) {
+        throw new Error('User is not logged in');
+      }
+      await axios.delete('/api/user/delete', {
+        headers: {
+          Authorization: `Bearer ${this.user.token}`,
+        },
+      });
+      this.user = null;
+      localStorage.removeItem('user');
+      window.location.href = '/login'; // Přesměrování na přihlašovací stránku
+    },
     logout() {
       this.user = null;
       localStorage.removeItem('user');

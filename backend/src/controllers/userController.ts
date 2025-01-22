@@ -64,5 +64,18 @@ const updateUser = async (req: AuthenticatedRequest, res: Response) => {
     res.status(400).json({ error: (error as Error).message });
   }
 };
+// delete a user
+const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
 
-export { signupUser, loginUser, updateUser };
+    await User.deleteUser(req.user._id);
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+};
+
+export { signupUser, loginUser, updateUser, deleteUser }; // Přidejte deleteUser do exportu
