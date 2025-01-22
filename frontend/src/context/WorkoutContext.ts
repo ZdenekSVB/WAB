@@ -1,17 +1,6 @@
-// src/types/workout.ts
-export interface Workout {
-  _id: string;
-  title: string;
-  load: number;
-  reps: number;
-  createdAt: string;
-  updatedAt?: string;
-}
-
-// src/stores/workouts.ts
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { Workout } from '../types/workout';
+import { ref, Ref } from 'vue';
+import { Workout } from '@/context/Workout';
 
 export const useWorkoutsStore = defineStore('workouts', () => {
   const workouts = ref<Workout[]>([]);
@@ -24,7 +13,12 @@ export const useWorkoutsStore = defineStore('workouts', () => {
     workouts.value = response.ok ? data : [];
   };
 
-  const createWorkout = async (workout: Workout, token: string, error, emptyFields) => {
+  const createWorkout = async (
+    workout: Workout,
+    token: string,
+    error: Ref<string | null>,
+    emptyFields: Ref<string[]>
+  ) => {
     const response = await fetch('/api/workouts', {
       method: 'POST',
       body: JSON.stringify(workout),

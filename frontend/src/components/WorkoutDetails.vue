@@ -12,8 +12,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { formatDistanceToNow } from 'date-fns';
-import { useAuthStore } from '../context/AuthContext';
-import { useWorkoutsStore } from '../context/WorkoutContext';
+import { useAuthStore } from '@/context/AuthContext';
+import { useWorkoutsStore } from '@/context/WorkoutContext';
 
 export default defineComponent({
   props: {

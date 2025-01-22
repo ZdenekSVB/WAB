@@ -1,10 +1,9 @@
-// src/composables/useSignup.ts
 import { ref } from 'vue';
-import { useAuthStore } from '../context/AuthContext';
+import { useAuthStore } from '@/context/AuthContext';
 
 export const useSignup = () => {
   const error = ref<string | null>(null);
-  const isLoading = ref<boolean | null>(null);
+  const isLoading = ref<boolean>(false);
   const authStore = useAuthStore();
 
   const signup = async (email: string, password: string) => {
@@ -12,11 +11,12 @@ export const useSignup = () => {
     error.value = null;
 
     try {
-      const response = await fetch('/api/user/signup', {
+      const response = await fetch('http://localhost:4000/api/user/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+
       const json = await response.json();
 
       if (!response.ok) {
@@ -30,7 +30,7 @@ export const useSignup = () => {
       isLoading.value = false;
     } catch (err) {
       isLoading.value = false;
-      error.value = "erorr";
+      error.value = "An error occurred during signup.";
     }
   };
 

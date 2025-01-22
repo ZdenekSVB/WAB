@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/userModel';
 import jwt from 'jsonwebtoken';
+import validator from 'validator';
 
 const createToken = (_id: string): string => {
   return jwt.sign({ _id }, process.env.SECRET as string, { expiresIn: '3d' });

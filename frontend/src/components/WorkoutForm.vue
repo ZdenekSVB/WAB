@@ -1,4 +1,3 @@
-<!-- src/components/WorkoutForm.vue -->
 <template>
   <form class="create" @submit.prevent="handleSubmit">
     <h3>Add a New Workout</h3>
@@ -15,16 +14,22 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useWorkoutsStore } from '../context/WorkoutContext';
-import { useAuthStore } from '../context/AuthContext';
+import { useWorkoutsStore } from '@/context/WorkoutContext';
+import { useAuthStore } from '@/context/AuthContext';
+
+interface WorkoutInput {
+  title: string;
+  load: number;
+  reps: number;
+}
 
 export default defineComponent({
   setup() {
     const title = ref('');
-    const load = ref('');
-    const reps = ref('');
-    const error = ref(null);
-    const emptyFields = ref([]);
+    const load = ref<number | string>('');
+    const reps = ref<number | string>('');
+    const error = ref<string | null>(null);
+    const emptyFields = ref<string[]>([]);
     const workoutsStore = useWorkoutsStore();
     const authStore = useAuthStore();
 
@@ -34,8 +39,18 @@ export default defineComponent({
         return;
       }
 
-      const workout = { title: title.value, load: load.value, reps: reps.value };
-      await workoutsStore.createWorkout(workout, authStore.user.token, error, emptyFields);
+      const workout: WorkoutInput = {
+        title: title.value,
+        load: Number(load.value),
+        reps: Number(reps.value),
+      };
+
+      await workoutsStore.createWorkout(
+        workout,
+        authStore.user.token,
+        error,
+        emptyFields
+      );
 
       if (!error.value) {
         title.value = '';

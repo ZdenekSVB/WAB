@@ -1,14 +1,16 @@
 import { Request, Response } from 'express';
 import Workout from '../models/workoutModel';
 import mongoose, { Types } from 'mongoose';
+import { AuthenticatedRequest } from '../types'; // Import the interface
 
 // get all workouts
-const getWorkouts = async (req: Request, res: Response): Promise<void> => {
+const getWorkouts = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const user_id = (req as any).user._id; // Explicitní přetypování pro vlastnost `user`
+    const user_id = req.user?._id; // Safe access
     const workouts = await Workout.find({ user_id }).sort({ createdAt: -1 });
     res.status(200).json(workouts);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -36,7 +38,7 @@ const getWorkout = async (req: Request, res: Response): Promise<void> => {
 };
 
 // create new workout
-const createWorkout = async (req: Request, res: Response): Promise<void> => {
+const createWorkout = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const { title, load, reps } = req.body;
 
   const emptyFields: string[] = [];
@@ -50,7 +52,7 @@ const createWorkout = async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const user_id = (req as any).user._id; // Explicitní přetypování pro vlastnost `user`
+    const user_id = req.user?._id; // Use the type-safe `AuthenticatedRequest`
     const workout = await Workout.create({ title, load, reps, user_id });
     res.status(200).json(workout);
   } catch (error: any) {

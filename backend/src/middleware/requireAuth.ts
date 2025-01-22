@@ -1,11 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel';
-
-// Rozšíření typu Request pro přidání vlastnosti user
-interface AuthenticatedRequest extends Request {
-  user?: { _id: string }; // Přidána volitelná vlastnost user
-}
+import { AuthenticatedRequest } from '../types'; // Import the interface
 
 const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   const { authorization } = req.headers;
@@ -26,7 +22,7 @@ const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextF
       return;
     }
 
-    req.user = { _id: user._id.toString() }; // Přidání user do requestu
+    req.user = { _id: user._id.toString() }; // Add user to the request
     next();
   } catch (error) {
     console.error(error);

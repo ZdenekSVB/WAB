@@ -1,5 +1,4 @@
-// src/composables/useWorkouts.ts
-import { useWorkoutsStore } from '../context/WorkoutContext';
+import { useWorkoutsStore } from '@/context/WorkoutContext';
 
 export const useWorkouts = () => {
   const workoutsStore = useWorkoutsStore();

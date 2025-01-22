@@ -1,4 +1,3 @@
-<!-- src/pages/Login.vue -->
 <template>
   <form class="login" @submit.prevent="handleSubmit">
     <h3>Log In</h3>
@@ -13,20 +12,19 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useAuthStore } from '../context/AuthContext';
+import { useAuthStore } from '@/context/AuthContext';
 
 export default defineComponent({
   setup() {
     const email = ref('');
     const password = ref('');
     const authStore = useAuthStore();
-    const { login, error, isLoading } = authStore;
 
     const handleSubmit = async () => {
-      await login(email.value, password.value);
+      await authStore.login(email.value, password.value);
     };
 
-    return { email, password, handleSubmit, error, isLoading };
+    return { email, password, handleSubmit, error: authStore.error, isLoading: authStore.isLoading };
   },
 });
 </script>

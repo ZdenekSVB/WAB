@@ -1,6 +1,6 @@
-// src/composables/useLogout.ts
-import { useAuthStore } from '../stores/auth';
-import { useWorkoutsStore } from '../stores/workouts';
+
+import { useAuthStore } from '@/context/AuthContext';
+import { useWorkoutsStore } from '@/context/WorkoutContext';
 
 export const useLogout = () => {
   const authStore = useAuthStore();
@@ -9,7 +9,7 @@ export const useLogout = () => {
   const logout = () => {
     localStorage.removeItem('user');
     authStore.logout();
-    workoutsStore.setWorkouts([]);
+    workoutsStore.workouts([]);
   };
 
   return { logout };

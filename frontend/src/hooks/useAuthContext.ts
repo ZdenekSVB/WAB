@@ -1,5 +1,4 @@
-// src/composables/useAuth.ts
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '@/context/AuthContext';
 
 export const useAuth = () => {
   const authStore = useAuthStore();

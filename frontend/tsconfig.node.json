@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "include": [
-    "vite.config.*",
+    "vite.config.*", // Ensure this is included
     "vitest.config.*",
     "cypress.config.*",
     "nightwatch.conf.*",
@@ -9,8 +9,8 @@
   ],
   "compilerOptions": {
     "outDir": "./dist/node",
-    "rootDir": "./src",
-    "composite": true
+    "rootDir": "./",
+    "composite": true,
+    "moduleResolution": "Node"
   }
-
 }

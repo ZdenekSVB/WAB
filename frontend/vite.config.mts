@@ -8,21 +8,21 @@ import ViteFonts from 'unplugin-fonts/vite';
 
 export default defineConfig({
   plugins: [
-    VueRouter(),
+    VueRouter(), // Enable Vue Router
     Vue({
-      template: { transformAssetUrls },
+      template: { transformAssetUrls }, // Enable template asset URLs
     }),
     Vuetify({
-      autoImport: true,
-      styles: { configFile: 'src/styles/settings.scss' },
+      autoImport: true, // Auto-import Vuetify components
+      styles: { configFile: 'src/styles/settings.scss' }, // Vuetify styles
     }),
-    Components(),
+    Components(), // Auto-import Vue components
     ViteFonts({
       google: {
         families: [
           {
             name: 'Roboto',
-            styles: 'wght@100;300;400;500;700;900',
+            styles: 'wght@100;300;400;500;700;900', // Load Roboto font
           },
         ],
       },
@@ -30,10 +30,12 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)), // Alias for src directory
     },
   },
   server: {
-    port: 3000,
+    proxy: {
+      '/api': 'http://localhost:4000', // Proxy API requests to backend
+    },
   },
 });

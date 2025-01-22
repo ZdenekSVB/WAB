@@ -20,7 +20,7 @@
 
 <script>
 import { ref } from 'vue';
-import { useSignup } from '../hooks/useSignup'; // Ujistěte se, že cesta je správná
+import { useSignup } from '@/hooks/useSignup'; // Ujistěte se, že cesta je správná
 
 export default {
   setup() {

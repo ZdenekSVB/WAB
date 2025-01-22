@@ -9,6 +9,8 @@
       "@/*": ["src/*"]
     },
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true, // Add this line for JSON imports
+    "isolatedModules": true // Add this line for Vite compatibility
   }
 }

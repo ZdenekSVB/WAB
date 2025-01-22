@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useAuthStore } from '../context/AuthContext';
+import { useAuthStore } from '@/context/AuthContext';
 
 export default defineComponent({
   setup() {

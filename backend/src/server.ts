@@ -1,33 +1,34 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Import the cors package
+import userRoutes from './routes/user';
 
-// Načtení proměnných prostředí
 dotenv.config();
 
 const app = express();
 
-// Middleware pro zpracování JSON
+// Enable CORS for all routes
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow requests from your frontend
+    credentials: true, // Allow cookies and credentials
+}));
+
+// Middleware for JSON
 app.use(express.json());
 
-// Nastavení mongoose strictQuery
-mongoose.set('strictQuery', true);
+// Use the user routes
+app.use('/api/user', userRoutes);
 
-// Připojení k databázi
-const mongoUri = process.env.MONGO_URI;
-if (!mongoUri) {
-    console.error('Chyba: MONGO_URI není nastavena v .env souboru');
-    process.exit(1); // Ukončí aplikaci, pokud není URI dostupná
-}
-
+// Start the server
 mongoose
-    .connect(mongoUri)
+    .connect(process.env.MONGO_URI || '')
     .then(() => {
-        console.log('Připojeno k databázi');
-        app.listen(process.env.PORT || 3000, () => {
-            console.log(`Server běží na portu ${process.env.PORT || 3000}`);
+        console.log('Connected to the database');
+        app.listen(process.env.PORT || 4000, () => {
+            console.log(`Server is running on port ${process.env.PORT || 4000}`);
         });
     })
     .catch((err) => {
-        console.error('Chyba při připojení k databázi:', err.message);
+        console.error('Error connecting to the database:', err.message);
     });

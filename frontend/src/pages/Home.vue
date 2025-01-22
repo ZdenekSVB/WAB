@@ -14,10 +14,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import WorkoutDetails from '../components/WorkoutDetails.vue';
-import WorkoutForm from '../components/WorkoutForm.vue';
-import { useWorkoutsStore } from '../context/WorkoutContext';
-import { useAuthStore } from '../context/AuthContext';
+import WorkoutDetails from '@/components/WorkoutDetails.vue';
+import WorkoutForm from '@/components/WorkoutForm.vue';
+import { useWorkoutsStore } from '@/context/WorkoutContext';
+import { useAuthStore } from '@/context/AuthContext';
 
 export default defineComponent({
   components: { WorkoutDetails, WorkoutForm },
