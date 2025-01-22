@@ -1,4 +1,4 @@
-import { useWorkoutStore } from '../stores/workoutStore';
+import { useWorkoutStore } from '../stores/plantStore';
 
 export const useWorkouts = () => {
   const workoutStore = useWorkoutStore();

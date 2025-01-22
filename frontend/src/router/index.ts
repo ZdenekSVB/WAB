@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
-import Workouts from '../views/Workouts.vue';
-import AddWorkout from '../views/AddWorkout.vue'; // Import nové stránky
+import Plants from '../views/Plants.vue';
+import AddPlant from '../views/AddPlant.vue';
+import EditPlant from '../views/EditPlant.vue'; // Import nové stránky
 import { useAuthStore } from '../stores/authStore';
 
 const router = createRouter({
@@ -25,13 +26,18 @@ const router = createRouter({
       meta: { requiresAuth: false },
     },
     {
-      path: '/workouts',
-      component: Workouts,
+      path: '/plants',
+      component: Plants,
       meta: { requiresAuth: true },
     },
     {
-      path: '/add-workout',
-      component: AddWorkout,
+      path: '/add-plant',
+      component: AddPlant,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/edit-plant/:id',
+      component: EditPlant, // Nová cesta pro úpravu rostliny
       meta: { requiresAuth: true },
     },
   ],
@@ -40,9 +46,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   if (to.meta.requiresAuth && !authStore.user) {
-    next('/login'); // Přesměrujte nepřihlášené uživatele na přihlášení
+    next('/login');
   } else if (!to.meta.requiresAuth && authStore.user) {
-    next('/'); // Přesměrujte přihlášené uživatele na domovskou stránku
+    next('/');
   } else {
     next();
   }

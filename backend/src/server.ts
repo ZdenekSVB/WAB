@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/user';
-import workoutRoutes from './routes/workouts'; // Import workout routes
+import plantRoutes from './routes/plants';
+import path from 'path';
 
 dotenv.config();
 
@@ -11,18 +12,23 @@ const app = express();
 
 // Povolte CORS
 app.use(cors({
-    origin: 'http://localhost:3000', // Povolte požadavky z frontendu
+    origin: 'http://localhost:3000',
     credentials: true,
 }));
 
-// Middleware pro JSON
-app.use(express.json());
+// Zvýšení limitu velikosti těla požadavku na 10 MB
+app.use(express.json({ limit: '10mb' })); // Zvýšení limitu pro JSON
+app.use(express.urlencoded({ limit: '10mb', extended: true })); // Zvýšení limitu pro URL-encoded data
+
+// Serving statických souborů ze složky 'uploads'
+const uploadsPath = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsPath));
 
 // Použijte user routes
 app.use('/api/user', userRoutes);
 
-// Použijte workout routes
-app.use('/api/workouts', workoutRoutes); // Přidejte workout routes
+// Použijte plant routes
+app.use('/api/plants', plantRoutes);
 
 // Spusťte server
 mongoose

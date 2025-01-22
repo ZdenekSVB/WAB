@@ -2,13 +2,13 @@
   <v-app-bar color="primary" dark>
     <v-toolbar-title>
       <router-link to="/" class="text-white text-decoration-none">
-        Workout Buddy
+        Garden Buddy <!-- Změna názvu aplikace -->
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="user">
-      <v-btn text @click="$router.push('/workouts')">Workouts</v-btn>
-      <v-btn text @click="$router.push('/add-workout')">Add Workout</v-btn>
+      <v-btn text @click="$router.push('/plants')">Plants</v-btn> <!-- Změna z Workouts na Plants -->
+      <v-btn text @click="$router.push('/add-plant')">Add Plant</v-btn> <!-- Změna z Add Workout na Add Plant -->
       <v-btn text @click="handleLogout">Logout</v-btn>
       <span class="ml-4">{{ user.email }}</span> <!-- Zobrazí e-mail uživatele -->
     </div>
