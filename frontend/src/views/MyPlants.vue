@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import api from '../utils/api'; // Použij upravenou instanci axios
 import { formatDistanceToNow } from 'date-fns';
 
 export default defineComponent({
@@ -51,7 +51,7 @@ export default defineComponent({
 
     const fetchPlants = async () => {
       try {
-        const response = await axios.get('/api/plants/my-plants');
+        const response = await api.get('/plants/my-plants'); // Použij `api` místo `axios`
         plants.value = response.data;
       } catch (error) {
         console.error('Error fetching plants:', error);
@@ -68,7 +68,7 @@ export default defineComponent({
 
     const handleDelete = async (id: string) => {
       try {
-        await axios.delete(`/api/plants/${id}`);
+        await api.delete(`/plants/${id}`); // Použij `api` místo `axios`
         await fetchPlants(); // Obnov seznam rostlin po smazání
       } catch (error) {
         console.error('Error deleting plant:', error);

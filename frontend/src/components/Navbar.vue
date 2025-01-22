@@ -7,10 +7,10 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="user">
-      <v-btn text @click="$router.push('/plants')">My Plants</v-btn> <!-- Zobrazuje pouze rostliny uživatele -->
+      <v-btn text @click="$router.push('/plants')">My Plants</v-btn>
       <v-btn text @click="$router.push('/add-plant')">Add Plant</v-btn>
       <v-btn text @click="$router.push('/chat')">Chat</v-btn>
-      <v-btn text @click="$router.push('/all-plants')">Browse Plants</v-btn> <!-- Zobrazuje všechny rostliny -->
+      <v-btn text @click="$router.push('/all-plants')">Browse Plants</v-btn>
       <v-btn text @click="handleLogout">Logout</v-btn>
       <v-btn text @click="$router.push('/settings')">{{ user.email }}</v-btn>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="text-h4 mb-4">My Plants</h2>
+    <h2 class="text-h4 mb-4">Browse Plants</h2>
     <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
     <v-list v-else-if="plants.length > 0">
       <v-list-item v-for="plant in plants" :key="plant._id">
@@ -19,11 +19,14 @@
             ></v-img>
             <p><strong>Added:</strong> {{ formatDate(plant.createdAt) }}</p>
             <p><strong>Likes:</strong> {{ plant.likes || 0 }}</p>
+            <v-btn
+                v-if="plant.user_id !== authStore.user?._id"
+                color="primary"
+                @click="likePlant(plant._id)"
+            >
+              Like
+            </v-btn>
           </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" @click="handleEdit(plant._id)" class="mr-2">Edit</v-btn>
-            <v-btn color="error" @click="handleDelete(plant._id)">Delete</v-btn>
-          </v-card-actions>
         </v-card>
       </v-list-item>
     </v-list>
@@ -33,14 +36,14 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { useAuthStore } from '../stores/authStore';
 import { formatDistanceToNow } from 'date-fns';
+import api from '../utils/api'; // Použij upravenou instanci axios
 
 export default defineComponent({
-  name: 'MyPlants',
+  name: 'BrowsePlants',
   setup() {
-    const router = useRouter();
+    const authStore = useAuthStore();
     const plants = ref<any[]>([]);
     const loading = ref(true);
 
@@ -51,7 +54,7 @@ export default defineComponent({
 
     const fetchPlants = async () => {
       try {
-        const response = await axios.get('/api/plants/my-plants');
+        const response = await api.get('/plants/all-plants'); // Použij `api` místo `axios`
         plants.value = response.data;
       } catch (error) {
         console.error('Error fetching plants:', error);
@@ -62,16 +65,12 @@ export default defineComponent({
       return formatDistanceToNow(new Date(date), { addSuffix: true });
     };
 
-    const handleEdit = (id: string) => {
-      router.push(`/edit-plant/${id}`);
-    };
-
-    const handleDelete = async (id: string) => {
+    const likePlant = async (plantId: string) => {
       try {
-        await axios.delete(`/api/plants/${id}`);
-        await fetchPlants(); // Obnov seznam rostlin po smazání
+        await api.post(`/plants/like/${plantId}`); // Použij `api` místo `axios`
+        await fetchPlants(); // Obnov seznam rostlin po lajkování
       } catch (error) {
-        console.error('Error deleting plant:', error);
+        console.error('Error liking plant:', error);
       }
     };
 
@@ -79,8 +78,8 @@ export default defineComponent({
       plants,
       loading,
       formatDate,
-      handleEdit,
-      handleDelete,
+      likePlant,
+      authStore,
     };
   },
 });

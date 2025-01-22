@@ -6,7 +6,7 @@ import BrowsePlants from '../views/BrowsePlants.vue';
 import AddPlant from '../views/AddPlant.vue';
 import EditPlant from '../views/EditPlant.vue';
 import Settings from '../views/Settings.vue';
-import Chat from '../views/Chat.vue'; // Importujte komponentu Chat
+import Chat from '../views/Chat.vue';
 import { useAuthStore } from '../stores/authStore';
 import MyPlants from '../views/MyPlants.vue';
 
@@ -45,17 +45,17 @@ const router = createRouter({
     },
     {
       path: '/chat',
-      component: Chat, // Nová cesta pro chat
+      component: Chat,
       meta: { requiresAuth: true },
     },
     {
       path: '/plants',
-      component: BrowsePlants,
+      component: MyPlants, // Zobrazuje pouze rostliny přihlášeného uživatele
       meta: { requiresAuth: true },
     },
     {
       path: '/all-plants',
-      component: MyPlants,
+      component: BrowsePlants, // Zobrazuje všechny rostliny
       meta: { requiresAuth: true },
     },
   ],
