@@ -1,26 +1,30 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import cors from 'cors'; // Import the cors package
+import cors from 'cors';
 import userRoutes from './routes/user';
+import workoutRoutes from './routes/workouts'; // Import workout routes
 
 dotenv.config();
 
 const app = express();
 
-// Enable CORS for all routes
+// Povolte CORS
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from your frontend
-    credentials: true, // Allow cookies and credentials
+    origin: 'http://localhost:3000', // Povolte požadavky z frontendu
+    credentials: true,
 }));
 
-// Middleware for JSON
+// Middleware pro JSON
 app.use(express.json());
 
-// Use the user routes
+// Použijte user routes
 app.use('/api/user', userRoutes);
 
-// Start the server
+// Použijte workout routes
+app.use('/api/workouts', workoutRoutes); // Přidejte workout routes
+
+// Spusťte server
 mongoose
     .connect(process.env.MONGO_URI || '')
     .then(() => {

@@ -1,42 +1,37 @@
-<!-- src/components/WorkoutDetails.vue -->
 <template>
   <div class="workout-details">
     <h4>{{ workout.title }}</h4>
     <p><strong>Load (kg): </strong>{{ workout.load }}</p>
     <p><strong>Reps: </strong>{{ workout.reps }}</p>
-    <p>{{ formattedDate }}</p>
+    <p>{{ formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true }) }}</p>
     <span class="material-symbols-outlined" @click="handleClick">delete</span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 import { formatDistanceToNow } from 'date-fns';
-import { useAuthStore } from '@/context/AuthContext';
-import { useWorkoutsStore } from '@/context/WorkoutContext';
+import { useWorkoutStore } from '../stores/workoutStore';
 
 export default defineComponent({
+  name: 'WorkoutDetails',
   props: {
     workout: {
-      type: Object,
+      type: Object as () => { _id: string; title: string; load: number; reps: number; createdAt: string },
       required: true,
     },
   },
   setup(props) {
-    const authStore = useAuthStore();
-    const workoutsStore = useWorkoutsStore();
-    const { deleteWorkout } = workoutsStore;
-
-    const formattedDate = computed(() =>
-      formatDistanceToNow(new Date(props.workout.createdAt), { addSuffix: true })
-    );
+    const workoutStore = useWorkoutStore();
 
     const handleClick = async () => {
-      if (!authStore.user) return;
-      await deleteWorkout(props.workout._id, authStore.user.token);
+      await workoutStore.deleteWorkout(props.workout._id);
     };
 
-    return { formattedDate, handleClick };
+    return {
+      formatDistanceToNow,
+      handleClick,
+    };
   },
 });
 </script>

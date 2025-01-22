@@ -1,36 +1,48 @@
 <template>
-  <form class="create" @submit.prevent="handleSubmit">
-    <h3>Add a New Workout</h3>
-    <label>Exercise Title:</label>
-    <input type="text" v-model="title" :class="{ error: emptyFields.includes('title') }" />
-    <label>Load (in kg):</label>
-    <input type="number" v-model="load" :class="{ error: emptyFields.includes('load') }" />
-    <label>Reps:</label>
-    <input type="number" v-model="reps" :class="{ error: emptyFields.includes('reps') }" />
-    <button>Add Workout</button>
-    <div v-if="error" class="error">{{ error }}</div>
-  </form>
+  <v-card class="mx-auto my-8" max-width="500">
+    <v-card-title>Add a New Workout</v-card-title>
+    <v-card-text>
+      <v-form @submit.prevent="handleSubmit">
+        <v-text-field
+            v-model="title"
+            label="Exercise Title"
+            :error-messages="emptyFields.includes('title') ? 'This field is required' : ''"
+        ></v-text-field>
+        <v-text-field
+            v-model="load"
+            label="Load (kg)"
+            type="number"
+            :error-messages="emptyFields.includes('load') ? 'This field is required' : ''"
+        ></v-text-field>
+        <v-text-field
+            v-model="reps"
+            label="Reps"
+            type="number"
+            :error-messages="emptyFields.includes('reps') ? 'This field is required' : ''"
+        ></v-text-field>
+        <v-btn type="submit" color="primary" :loading="isLoading">Add Workout</v-btn>
+        <v-alert v-if="error" type="error" class="mt-4">{{ error }}</v-alert>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useWorkoutsStore } from '@/context/WorkoutContext';
-import { useAuthStore } from '@/context/AuthContext';
-
-interface WorkoutInput {
-  title: string;
-  load: number;
-  reps: number;
-}
+import { useWorkoutStore } from '../stores/workoutStore';
+import { useAuthStore } from '../stores/authStore';
 
 export default defineComponent({
-  setup() {
+  name: 'WorkoutForm',
+  emits: ['workout-added'],
+  setup(props, { emit }) {
     const title = ref('');
-    const load = ref<number | string>('');
-    const reps = ref<number | string>('');
+    const load = ref('');
+    const reps = ref('');
     const error = ref<string | null>(null);
     const emptyFields = ref<string[]>([]);
-    const workoutsStore = useWorkoutsStore();
+    const isLoading = ref(false);
+    const workoutStore = useWorkoutStore();
     const authStore = useAuthStore();
 
     const handleSubmit = async () => {
@@ -39,28 +51,38 @@ export default defineComponent({
         return;
       }
 
-      const workout: WorkoutInput = {
+      const workout = {
         title: title.value,
-        load: Number(load.value),
-        reps: Number(reps.value),
+        load: parseFloat(load.value),
+        reps: parseInt(reps.value),
       };
 
-      await workoutsStore.createWorkout(
-        workout,
-        authStore.user.token,
-        error,
-        emptyFields
-      );
-
-      if (!error.value) {
+      try {
+        isLoading.value = true;
+        await workoutStore.createWorkout(workout);
+        emit('workout-added');
         title.value = '';
         load.value = '';
         reps.value = '';
+        error.value = null;
         emptyFields.value = [];
+      } catch (err: any) {
+        error.value = err.response?.data?.error || 'An error occurred';
+        emptyFields.value = err.response?.data?.emptyFields || [];
+      } finally {
+        isLoading.value = false;
       }
     };
 
-    return { title, load, reps, error, emptyFields, handleSubmit };
+    return {
+      title,
+      load,
+      reps,
+      error,
+      emptyFields,
+      isLoading,
+      handleSubmit,
+    };
   },
 });
 </script>

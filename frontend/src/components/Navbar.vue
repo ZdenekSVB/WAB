@@ -1,42 +1,67 @@
-<!-- src/components/Navbar.vue -->
 <template>
-  <header>
-    <div class="container">
-      <router-link to="/">
-        <h1>Workout Buddy</h1>
+  <v-app-bar color="primary" dark>
+    <v-toolbar-title>
+      <router-link to="/" class="text-white text-decoration-none">
+        Workout Buddy
       </router-link>
-      <nav>
-        <div v-if="user">
-          <span>{{ user.email }}</span>
-          <button @click="handleLogout">Log out</button>
-        </div>
-        <div v-else>
-          <router-link to="/login">Login</router-link>
-          <router-link to="/signup">Signup</router-link>
-        </div>
-      </nav>
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <div v-if="user">
+      <v-btn text @click="$router.push('/workouts')">Workouts</v-btn>
+      <v-btn text @click="$router.push('/add-workout')">Add Workout</v-btn>
+      <v-btn text @click="handleLogout">Logout</v-btn>
+      <span class="ml-4">{{ user.email }}</span> <!-- Zobrazí e-mail uživatele -->
     </div>
-  </header>
+    <div v-else>
+      <v-btn text @click="$router.push('/login')">Login</v-btn>
+      <v-btn text @click="$router.push('/signup')">Signup</v-btn>
+    </div>
+  </v-app-bar>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useAuthStore } from '@/context/AuthContext';
+import { defineComponent, ref, watch } from 'vue';
+import { useAuthStore } from '../stores/authStore';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
+  name: 'Navbar',
   setup() {
     const authStore = useAuthStore();
-    const { user, logout } = authStore;
+    const router = useRouter();
+    const user = ref(authStore.user);
+
+    // Sledujte změny v authStore.user
+    watch(
+        () => authStore.user,
+        (newUser) => {
+          user.value = newUser;
+        }
+    );
 
     const handleLogout = () => {
-      logout();
+      authStore.logout();
+      router.push('/login'); // Přesměrování na přihlašovací stránku po odhlášení
     };
 
-    return { user, handleLogout };
+    return {
+      user,
+      handleLogout,
+    };
   },
 });
 </script>
 
 <style scoped>
-/* Stylování podle potřeby */
+.text-decoration-none {
+  text-decoration: none;
+}
+
+.text-white {
+  color: white;
+}
+
+.ml-4 {
+  margin-left: 16px;
+}
 </style>

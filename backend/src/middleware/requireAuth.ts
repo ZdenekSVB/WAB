@@ -1,7 +1,8 @@
+// backend/middleware/requireAuth.ts
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel';
-import { AuthenticatedRequest } from '../types'; // Import the interface
+import { AuthenticatedRequest } from '../types';
 
 const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   const { authorization } = req.headers;
@@ -16,13 +17,13 @@ const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextF
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET as string) as { _id: string };
 
-    const user = await User.findOne({ _id: decodedToken._id }).select('_id');
+    const user = await User.findOne({ _id: decodedToken._id }).select('_id email');
     if (!user) {
       res.status(401).json({ error: 'User not found' });
       return;
     }
 
-    req.user = { _id: user._id.toString() }; // Add user to the request
+    req.user = { _id: user._id.toString(), email: user.email, token }; // Přidejte všechny požadované vlastnosti
     next();
   } catch (error) {
     console.error(error);

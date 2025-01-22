@@ -1,7 +1,8 @@
+// backend/controllers/workoutController.ts
 import { Request, Response } from 'express';
 import Workout from '../models/workoutModel';
 import mongoose, { Types } from 'mongoose';
-import { AuthenticatedRequest } from '../types'; // Import the interface
+import { AuthenticatedRequest } from '../types';
 
 // get all workouts
 const getWorkouts = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
@@ -61,6 +62,7 @@ const createWorkout = async (req: AuthenticatedRequest, res: Response): Promise<
 };
 
 // delete a workout
+// backend/controllers/workoutController.ts
 const deleteWorkout = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 

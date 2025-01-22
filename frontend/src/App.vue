@@ -1,9 +1,10 @@
-<!-- src/App.vue -->
 <template>
-  <div id="app">
+  <v-app>
     <Navbar />
-    <router-view />
-  </div>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts">
@@ -11,10 +12,9 @@ import { defineComponent } from 'vue';
 import Navbar from './components/Navbar.vue';
 
 export default defineComponent({
-  components: { Navbar },
+  name: 'App',
+  components: {
+    Navbar,
+  },
 });
 </script>
-
-<style>
-/* Globální stylování */
-</style>
