@@ -10,16 +10,25 @@ interface IUser extends Document {
   _id: string;
   email: string;
   password: string;
+  firstName?: string;
+  lastName?: string;
+  nickname?: string;
   token?: string;
 }
 
 interface UserModel extends Model<IUser> {
-  signup(email: string, password: string): Promise<IUser>;
+  signup(
+      email: string,
+      password: string,
+      firstName?: string,
+      lastName?: string,
+      nickname?: string
+  ): Promise<IUser>;
   login(email: string, password: string): Promise<{ user: IUser; token: string }>;
-  deleteUser(userId: string): Promise<void>; // Přidáno
+  deleteUser(userId: string): Promise<void>;
 }
 
-const userSchema = new Schema<IUser>({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -29,10 +38,28 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-});
+  firstName: {
+    type: String,
+    required: false, // Nepovinné
+  },
+  lastName: {
+    type: String,
+    required: false, // Nepovinné
+  },
+  nickname: {
+    type: String,
+    required: false, // Nepovinné
+  },
+}, { timestamps: true });
 
-// static signup method
-userSchema.statics.signup = async function(email: string, password: string): Promise<IUser> {
+// Statická metoda pro registraci
+userSchema.statics.signup = async function(
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+    nickname?: string
+): Promise<IUser> {
   if (!email || !password) {
     throw Error('All fields must be filled');
   }
@@ -51,12 +78,15 @@ userSchema.statics.signup = async function(email: string, password: string): Pro
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash });
+  const user = await this.create({ email, password: hash, firstName, lastName, nickname });
   return user;
 };
 
-// static login method
-userSchema.statics.login = async function(email: string, password: string): Promise<{ user: IUser; token: string }> {
+// Statická metoda pro přihlášení
+userSchema.statics.login = async function(
+    email: string,
+    password: string
+): Promise<{ user: IUser; token: string }> {
   if (!email || !password) {
     throw Error('All fields must be filled');
   }
@@ -75,7 +105,7 @@ userSchema.statics.login = async function(email: string, password: string): Prom
   return { user, token };
 };
 
-// static deleteUser method
+// Statická metoda pro smazání uživatele
 userSchema.statics.deleteUser = async function(userId: string): Promise<void> {
   const user = await this.findById(userId);
   if (!user) {

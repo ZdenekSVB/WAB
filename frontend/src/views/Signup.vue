@@ -8,6 +8,7 @@
           </v-toolbar>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
+              <!-- Povinné pole: Email -->
               <v-text-field
                   v-model="email"
                   label="Email"
@@ -15,6 +16,8 @@
                   required
                   outlined
               ></v-text-field>
+
+              <!-- Povinné pole: Heslo -->
               <v-text-field
                   v-model="password"
                   label="Password"
@@ -22,6 +25,29 @@
                   required
                   outlined
               ></v-text-field>
+
+              <!-- Volitelné pole: Jméno -->
+              <v-text-field
+                  v-model="firstName"
+                  label="First Name"
+                  outlined
+              ></v-text-field>
+
+              <!-- Volitelné pole: Příjmení -->
+              <v-text-field
+                  v-model="lastName"
+                  label="Last Name"
+                  outlined
+              ></v-text-field>
+
+              <!-- Volitelné pole: Přezdívka -->
+              <v-text-field
+                  v-model="nickname"
+                  label="Nickname"
+                  outlined
+              ></v-text-field>
+
+              <!-- Tlačítko pro registraci -->
               <v-btn
                   type="submit"
                   color="primary"
@@ -30,6 +56,8 @@
               >
                 {{ isLoading ? 'Signing up...' : 'Sign up' }}
               </v-btn>
+
+              <!-- Chybová zpráva -->
               <v-alert v-if="error" type="error" class="mt-4">
                 {{ error }}
               </v-alert>
@@ -51,6 +79,9 @@ export default defineComponent({
   setup() {
     const email = ref('');
     const password = ref('');
+    const firstName = ref('');
+    const lastName = ref('');
+    const nickname = ref('');
     const error = ref<string | null>(null);
     const isLoading = ref(false);
     const authStore = useAuthStore();
@@ -61,7 +92,13 @@ export default defineComponent({
       error.value = null;
 
       try {
-        await authStore.signup(email.value, password.value);
+        await authStore.signup(
+            email.value,
+            password.value,
+            firstName.value,
+            lastName.value,
+            nickname.value
+        );
         router.push('/');
       } catch (err: any) {
         error.value = err.response?.data?.error || 'An error occurred';
@@ -73,6 +110,9 @@ export default defineComponent({
     return {
       email,
       password,
+      firstName,
+      lastName,
+      nickname,
       error,
       isLoading,
       handleSubmit,

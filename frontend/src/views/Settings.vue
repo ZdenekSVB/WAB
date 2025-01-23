@@ -1,88 +1,127 @@
 <template>
   <v-container>
-    <h2 class="text-h4 mb-4">Settings</h2>
-    <v-form @submit.prevent="handleSubmit">
-      <!-- Email field je read-only -->
-      <v-text-field
-          v-model="email"
-          label="Email"
-          readonly
-          outlined
-          disabled
-      ></v-text-field>
+    <v-row>
+      <v-col cols="12">
+        <v-card>
+          <v-toolbar color="primary" dark>
+            <v-toolbar-title>Settings</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <!-- Formulář pro úpravu informací -->
+            <v-form @submit.prevent="handleSubmit">
+              <!-- Pole pro jméno -->
+              <v-text-field
+                  v-model="firstName"
+                  label="First Name"
+                  outlined
+              ></v-text-field>
 
-      <!-- Pole pro nové heslo -->
-      <v-text-field
-          v-model="password"
-          label="New Password"
-          type="password"
-          outlined
-      ></v-text-field>
+              <!-- Pole pro příjmení -->
+              <v-text-field
+                  v-model="lastName"
+                  label="Last Name"
+                  outlined
+              ></v-text-field>
 
-      <!-- Tlačítko pro uložení změn -->
-      <v-btn type="submit" color="primary" :loading="isLoading">Save Changes</v-btn>
+              <!-- Pole pro přezdívku -->
+              <v-text-field
+                  v-model="nickname"
+                  label="Nickname"
+                  outlined
+              ></v-text-field>
 
-      <!-- Zobrazení chyb a úspěšných zpráv -->
-      <v-alert v-if="error" type="error" class="mt-4">{{ error }}</v-alert>
-      <v-alert v-if="success" type="success" class="mt-4">{{ success }}</v-alert>
-    </v-form>
+              <!-- Pole pro heslo -->
+              <v-text-field
+                  v-model="password"
+                  label="New Password"
+                  type="password"
+                  outlined
+              ></v-text-field>
 
-    <!-- Tlačítko pro smazání účtu -->
-    <v-btn color="error" class="mt-4" @click="handleDeleteAccount">Delete Account</v-btn>
+              <!-- Tlačítko pro uložení změn -->
+              <v-btn type="submit" color="primary" :loading="isLoading">
+                Save Changes
+              </v-btn>
+
+              <!-- Chybová zpráva -->
+              <v-alert v-if="error" type="error" class="mt-4">
+                {{ error }}
+              </v-alert>
+            </v-form>
+
+            <!-- Tlačítko pro přepínání dark/light mode -->
+            <v-btn @click="toggleDarkMode" class="mt-4" color="secondary">
+              {{ isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useAuthStore } from '../stores/authStore';
+import { useThemeStore } from '../stores/themeStore';
 
 export default defineComponent({
   name: 'Settings',
   setup() {
     const authStore = useAuthStore();
-    const email = ref(authStore.user?.email || ''); // Email je pouze pro čtení
-    const password = ref(''); // Pole pro nové heslo
-    const error = ref(''); // Chybová zpráva
-    const success = ref(''); // Úspěšná zpráva
-    const isLoading = ref(false); // Načítací stav
+    const themeStore = useThemeStore();
+    const firstName = ref('');
+    const lastName = ref('');
+    const nickname = ref('');
+    const password = ref('');
+    const error = ref<string | null>(null);
+    const isLoading = ref(false);
 
+    // Načtení aktuálních informací o uživateli
+    onMounted(() => {
+      if (authStore.user) {
+        firstName.value = authStore.user.firstName || '';
+        lastName.value = authStore.user.lastName || '';
+        nickname.value = authStore.user.nickname || '';
+      }
+      themeStore.initializeTheme(); // Inicializace tématu
+    });
+
+    // Odeslání formuláře
     const handleSubmit = async () => {
-      try {
-        if (!authStore.user) {
-          error.value = 'User is not authenticated';
-          return;
-        }
+      isLoading.value = true;
+      error.value = null;
 
-        isLoading.value = true;
-        await authStore.updateUser(password.value); // Odesíláme pouze heslo
-        success.value = 'Settings updated successfully';
-        password.value = ''; // Vyčistíme pole pro heslo po úspěšné aktualizaci
+      try {
+        await authStore.updateUser(
+            firstName.value,
+            lastName.value,
+            nickname.value,
+            password.value
+        );
+        alert('Changes saved successfully!');
       } catch (err: any) {
-        error.value = err.response?.data?.error || 'An error occurred';
+        error.value = err.message || 'An error occurred';
       } finally {
         isLoading.value = false;
       }
     };
 
-    const handleDeleteAccount = async () => {
-      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-        try {
-          await authStore.deleteUser();
-          success.value = 'Account deleted successfully';
-        } catch (err: any) {
-          error.value = err.response?.data?.error || 'An error occurred';
-        }
-      }
+    // Přepínání dark/light mode
+    const toggleDarkMode = () => {
+      themeStore.toggleDarkMode();
     };
 
     return {
-      email,
+      firstName,
+      lastName,
+      nickname,
       password,
       error,
-      success,
       isLoading,
       handleSubmit,
-      handleDeleteAccount,
+      toggleDarkMode,
+      isDarkMode: themeStore.isDarkMode,
     };
   },
 });

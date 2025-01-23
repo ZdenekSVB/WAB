@@ -12,7 +12,7 @@
       <v-btn text @click="$router.push('/chat')">Chat</v-btn>
       <v-btn text @click="$router.push('/all-plants')">Browse Plants</v-btn>
       <v-btn text @click="handleLogout">Logout</v-btn>
-      <v-btn text @click="$router.push('/settings')">{{ user.email }}</v-btn>
+      <v-btn text @click="$router.push('/settings')">{{ getDisplayName(user) }}</v-btn>
     </div>
     <div v-else>
       <v-btn text @click="$router.push('/login')">Login</v-btn>
@@ -47,9 +47,15 @@ export default defineComponent({
       router.push('/login');
     };
 
+    // Funkce pro zobrazení přezdívky nebo emailu
+    const getDisplayName = (user: any): string => {
+      return user.nickname || user.email;
+    };
+
     return {
       user,
       handleLogout,
+      getDisplayName,
     };
   },
 });

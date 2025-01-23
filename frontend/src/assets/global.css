@@ -1,0 +1,54 @@
+/* Základní styly pro light mode */
+body {
+    background-color: #ffffff; /* Bílé pozadí pro light mode */
+    color: #000000; /* Černý text pro light mode */
+}
+
+/* Styly pro dark mode */
+body.dark {
+    background-color: #121212; /* Tmavé pozadí pro dark mode */
+    color: #ffffff; /* Bílý text pro dark mode */
+}
+
+/* Hlavička (v-app-bar) bude vždy modrá */
+.v-app-bar {
+    background-color: #1976D2 !important; /* Modrá barva pro hlavičku */
+    color: #ffffff !important; /* Bílý text pro hlavičku */
+}
+
+/* Styly pro v-main v light mode */
+.v-main {
+    background-color: #ffffff; /* Bílé pozadí pro v-main v light mode */
+    color: #000000; /* Černý text pro v-main v light mode */
+}
+
+/* Styly pro v-main v dark mode */
+body.dark .v-main {
+    background-color: #121212; /* Tmavé pozadí pro v-main v dark mode */
+    color: #ffffff; /* Bílý text pro v-main v dark mode */
+}
+
+/* Styly pro komponenty v dark mode */
+body.dark .v-card {
+    background-color: #1e1e1e; /* Tmavé pozadí pro karty v dark mode */
+    color: #ffffff; /* Bílý text pro karty v dark mode */
+}
+
+body.dark .v-btn {
+    color: #ffffff; /* Bílý text pro tlačítka v dark mode */
+}
+
+body.dark .v-text-field {
+    background-color: #1e1e1e; /* Tmavé pozadí pro textová pole v dark mode */
+    color: #ffffff; /* Bílý text pro textová pole v dark mode */
+}
+
+body.dark .v-list {
+    background-color: #1e1e1e; /* Tmavé pozadí pro seznamy v dark mode */
+    color: #ffffff; /* Bílý text pro seznamy v dark mode */
+}
+
+body.dark .v-alert {
+    background-color: #1e1e1e; /* Tmavé pozadí pro alerty v dark mode */
+    color: #ffffff; /* Bílý text pro alerty v dark mode */
+}

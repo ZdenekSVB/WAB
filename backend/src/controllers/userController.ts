@@ -9,11 +9,31 @@ const createToken = (_id: string): string => {
 };
 
 // login a user
-const loginUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password }: { email: string; password: string } = req.body;
+const loginUser = async (req: Request, res: Response) => {
+  const { email, nickname, password } = req.body;
+
+  if (!password || (!email && !nickname)) {
+    return res.status(400).json({ error: 'Email or nickname and password are required' });
+  }
 
   try {
-    const { user, token } = await User.login(email, password);
+    let user;
+    if (email) {
+      user = await User.findOne({ email });
+    } else if (nickname) {
+      user = await User.findOne({ nickname });
+    }
+
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: 'Invalid password' });
+    }
+
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET as string, { expiresIn: '3d' });
     res.status(200).json({ email: user.email, token });
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
@@ -22,10 +42,10 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 
 // signup a user
 const signupUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password }: { email: string; password: string } = req.body;
+  const { email, password, firstName, lastName, nickname } = req.body;
 
   try {
-    const user = await User.signup(email, password);
+    const user = await User.signup(email, password, firstName, lastName, nickname);
     const token: string = createToken(user._id);
     res.status(200).json({ email: user.email, token });
   } catch (error) {

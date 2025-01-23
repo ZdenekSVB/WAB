@@ -8,13 +8,15 @@
           </v-toolbar>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
+              <!-- Pole pro email nebo přezdívku -->
               <v-text-field
-                  v-model="email"
-                  label="Email"
-                  type="email"
+                  v-model="identifier"
+                  label="Email or Nickname"
                   required
                   outlined
               ></v-text-field>
+
+              <!-- Pole pro heslo -->
               <v-text-field
                   v-model="password"
                   label="Password"
@@ -22,6 +24,8 @@
                   required
                   outlined
               ></v-text-field>
+
+              <!-- Tlačítko pro přihlášení -->
               <v-btn
                   type="submit"
                   color="primary"
@@ -30,6 +34,8 @@
               >
                 {{ isLoading ? 'Logging in...' : 'Log in' }}
               </v-btn>
+
+              <!-- Chybová zpráva -->
               <v-alert v-if="error" type="error" class="mt-4">
                 {{ error }}
               </v-alert>
@@ -49,7 +55,7 @@ import { useRouter } from 'vue-router';
 export default defineComponent({
   name: 'Login',
   setup() {
-    const email = ref('');
+    const identifier = ref(''); // Email nebo přezdívka
     const password = ref('');
     const error = ref<string | null>(null);
     const isLoading = ref(false);
@@ -60,7 +66,12 @@ export default defineComponent({
       isLoading.value = true;
       error.value = null;
       try {
-        await authStore.login(email.value, password.value);
+        const isEmail = identifier.value.includes('@');
+        const loginData = isEmail
+            ? { email: identifier.value, password: password.value }
+            : { nickname: identifier.value, password: password.value };
+
+        await authStore.login(loginData);
         router.push('/');
       } catch (err: any) {
         error.value = err.response?.data?.error || 'An error occurred';
@@ -70,7 +81,7 @@ export default defineComponent({
     };
 
     return {
-      email,
+      identifier,
       password,
       error,
       isLoading,

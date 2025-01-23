@@ -11,6 +11,8 @@
 import { defineComponent, onMounted } from 'vue';
 import Navbar from './components/Navbar.vue';
 import { useAuthStore } from './stores/authStore';
+import { useThemeStore } from './stores/themeStore';
+import './assets/global.css'; // Import globálního CSS
 
 export default defineComponent({
   name: 'App',
@@ -19,10 +21,12 @@ export default defineComponent({
   },
   setup() {
     const authStore = useAuthStore();
+    const themeStore = useThemeStore();
 
-    // Inicializace uživatele při spuštění aplikace
+    // Inicializace uživatele a tématu při spuštění aplikace
     onMounted(() => {
       authStore.initialize();
+      themeStore.initializeTheme(); // Inicializace tématu
     });
 
     return {};
