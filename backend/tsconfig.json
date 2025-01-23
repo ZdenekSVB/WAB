@@ -7,12 +7,13 @@
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
+    "moduleResolution": "node", // Ensure Node.js-style module resolution
     "skipLibCheck": true,
     "baseUrl": "./src", // Add baseUrl
     "paths": {
       "@/*": ["./*"] // Map @/ to src/
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*"] ,// Include test files
   "exclude": ["node_modules"]
 }

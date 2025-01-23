@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useAuthStore } from '../stores/authStore';
 import { useRouter } from 'vue-router';
 
@@ -31,15 +31,9 @@ export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
-    const user = ref(authStore.user);
 
-    // Sleduj změny v authStore.user
-    watch(
-        () => authStore.user,
-        (newUser) => {
-          user.value = newUser;
-        }
-    );
+    // Use a computed property to make `user` reactive
+    const user = computed(() => authStore.user);
 
     // Odhlášení uživatele
     const handleLogout = () => {

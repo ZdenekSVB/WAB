@@ -20,3 +20,14 @@
 [2025-01-23 13:21:57] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
 [2025-01-23 13:22:25] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
 [2025-01-23 13:23:04] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 21:09:05] ERROR: Error verifying token jwt malformed
+[2025-01-23 21:13:18] ERROR: Error verifying token jwt malformed
+[2025-01-23 21:16:02] ERROR: Error verifying token jwt malformed
+[2025-01-23 21:17:41] ERROR: Error during signup Password not strong enough
+[2025-01-23 21:18:16] ERROR: Error during signup Password not strong enough
+[2025-01-23 21:18:22] ERROR: Error during signup Password not strong enough
+[2025-01-23 21:23:44] ERROR: Error during signup Password must be at least 6 characters long
+[2025-01-23 21:47:10] ERROR: Error during signup Password must be at least 6 characters long
+[2025-01-23 22:27:35] ERROR: Error verifying token jwt malformed
+[2025-01-23 22:37:11] ERROR: Error during signup Password must be at least 6 characters long
+[2025-01-23 22:43:37] ERROR: Error verifying token jwt malformed

@@ -36,6 +36,7 @@ const findUser = async (email?: string, nickname?: string) => {
 };
 
 // Přihlášení uživatele
+// In userController.ts
 const loginUser = async (req: Request, res: Response) => {
   const { email, nickname, password } = req.body;
 
@@ -56,7 +57,14 @@ const loginUser = async (req: Request, res: Response) => {
 
     const token = createToken(user._id);
     logger.info(`User logged in: ${user.email}`);
-    res.status(200).json({ email: user.email, token });
+    res.status(200).json({
+      _id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      nickname: user.nickname,
+      token,
+    });
   } catch (error) {
     handleError(res, error, 'Error during login');
   }
@@ -124,4 +132,4 @@ const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 
-export { signupUser, loginUser, updateUser, deleteUser };
+export { signupUser, loginUser, updateUser, deleteUser, createToken };

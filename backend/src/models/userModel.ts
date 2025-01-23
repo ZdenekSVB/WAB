@@ -22,9 +22,9 @@ const validateUserInput = (email: string, password: string) => {
     logger.warn(`Invalid email format: ${email}`);
     throw Error('Email not valid');
   }
-  if (!validator.isStrongPassword(password, { minLength: 6, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 0 })) {
+  if (!validator.isStrongPassword(password, { minLength: 6 })) {
     logger.warn('Weak password provided');
-    throw Error('Password not strong enough');
+    throw Error('Password must be at least 6 characters long');
   }
 };
 
@@ -53,7 +53,7 @@ interface UserModel extends Model<IUser> {
 }
 
 // Schéma pro uživatele
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<IUser>(
     {
       email: {
         type: String,

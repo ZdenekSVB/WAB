@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-// Exportujeme rozhraní User
+// Export the User interface
 export interface User {
-  _id: string;
+  _id: string; // Ensure this is included
   email: string;
   firstName?: string;
   lastName?: string;
@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
     user: null as User | null,
   }),
   actions: {
-    // Přihlášení uživatele
+    // Signup user
     async signup(
         email: string,
         password: string,
@@ -24,78 +24,106 @@ export const useAuthStore = defineStore('auth', {
         lastName?: string,
         nickname?: string
     ) {
-      const response = await axios.post('/api/user/signup', {
-        email,
-        password,
-        firstName,
-        lastName,
-        nickname,
-      });
-      this.user = response.data as User;
-      localStorage.setItem('user', JSON.stringify(response.data));
+      try {
+        const response = await axios.post('/api/user/signup', {
+          email,
+          password,
+          firstName,
+          lastName,
+          nickname,
+        });
+        this.user = response.data as User;
+        localStorage.setItem('user', JSON.stringify(response.data));
+      } catch (error: any) {
+        // Extract the error message from the backend response
+        const errorMessage = error.response?.data?.error || 'An error occurred during signup';
+        throw new Error(errorMessage);
+      }
     },
 
-    // Přihlášení uživatele
+    // Login user
     async login(credentials: { email?: string; nickname?: string; password: string }) {
-      const response = await axios.post('/api/user/login', credentials);
-      this.user = response.data as User;
-      localStorage.setItem('user', JSON.stringify(response.data));
+      try {
+        const response = await axios.post('/api/user/login', credentials);
+        this.user = {
+          _id: response.data._id,
+          email: response.data.email,
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          nickname: response.data.nickname,
+          token: response.data.token,
+        };
+        localStorage.setItem('user', JSON.stringify(this.user));
+      } catch (error: any) {
+        // Extract the error message from the backend response
+        const errorMessage = error.response?.data?.error || 'An error occurred during login';
+        throw new Error(errorMessage);
+      }
     },
-
-    // Aktualizace uživatele (jméno, příjmení, přezdívka, heslo)
+    // Update user
     async updateUser(firstName: string, lastName: string, nickname: string, password: string) {
       if (!this.user) {
         throw new Error('User is not logged in');
       }
 
-      const response = await axios.put(
-          '/api/user/update',
-          { firstName, lastName, nickname, password },
-          {
-            headers: {
-              Authorization: `Bearer ${this.user.token}`,
-            },
-          }
-      );
+      try {
+        const response = await axios.put(
+            '/api/user/update', // Correct endpoint
+            { firstName, lastName, nickname, password },
+            {
+              headers: {
+                Authorization: `Bearer ${this.user.token}`,
+              },
+            }
+        );
 
-      // Aktualizujeme stav uživatele
-      this.user = { ...this.user, firstName, lastName, nickname };
-      localStorage.setItem('user', JSON.stringify(this.user));
+        // Aktualizujeme stav uživatele
+        this.user = { ...this.user, firstName, lastName, nickname };
+        localStorage.setItem('user', JSON.stringify(this.user));
+      } catch (error: any) {
+        throw new Error(error.response?.data?.error || 'An error occurred during update');
+      }
     },
 
-    // Smazání účtu
+    // Delete user
     async deleteUser() {
       if (!this.user) {
         throw new Error('User is not logged in');
       }
-      await axios.delete('/api/user/delete', {
-        headers: {
-          Authorization: `Bearer ${this.user.token}`,
-        },
-      });
-      this.user = null;
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+
+      try {
+        await axios.delete('/user/delete', {
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+        this.user = null;
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      } catch (error: any) {
+        throw new Error(error.response?.data?.error || 'An error occurred during deletion');
+      }
     },
 
-    // Odhlášení uživatele
+    // Logout user
     logout() {
       this.user = null;
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.href = '/login'; // Force a page reload to reset the state
     },
 
-    // Inicializace uživatele při načtení stránky
+    // Initialize user from localStorage
     initialize() {
       const user = localStorage.getItem('user');
       if (user) {
         this.user = JSON.parse(user) as User;
+        console.log('Initialized user:', this.user); // Debugging line
       } else {
-        this.user = null; // Explicitně nastavte na null, pokud uživatel není přihlášen
+        this.user = null;
       }
     },
 
-    // Pomocná funkce pro zobrazení jména (přezdívka nebo email)
+    // Get user display name
     getDisplayName(): string {
       if (!this.user) return '';
       return this.user.nickname || this.user.email;

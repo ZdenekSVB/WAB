@@ -74,7 +74,7 @@ export default defineComponent({
         await authStore.login(loginData);
         router.push('/');
       } catch (err: any) {
-        error.value = err.response?.data?.error || 'An error occurred';
+        error.value = err.message; // Display the specific error message
       } finally {
         isLoading.value = false;
       }

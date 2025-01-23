@@ -26,7 +26,7 @@ const findUserById = async (userId: string) => {
 };
 
 // Middleware to require authentication
-const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
   // Validate authorization header
@@ -52,11 +52,11 @@ const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextF
     return handleAuthError(res, 'User not found');
   }
 
-  // Attach user to request object
+  // Attach user and token to request object
   req.user = {
     _id: user._id.toString(),
     email: user.email,
-    token,
+    token, // Include the token in the req.user object
   };
 
   logger.info(`User authenticated: ${user.email}`);

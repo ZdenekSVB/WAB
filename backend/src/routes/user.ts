@@ -126,7 +126,6 @@ router.put('/update', requireAuth, (req: AuthenticatedRequest, res: Response) =>
     logRouteAction(req, 'initiated profile update');
     updateUser(req, res);
 });
-
 /**
  * @swagger
  * /api/user/delete:

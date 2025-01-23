@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
 const api = axios.create({
-    baseURL: '/api', // Základní URL pro všechny požadavky
+    baseURL: 'http://localhost:4000/api', // Update this to match your backend URL
 });
 
-// Přidej interceptor pro přidání tokenu do hlavičky
+// Add interceptor to include the token in the request headers
 api.interceptors.request.use((config) => {
     const authStore = useAuthStore();
     const token = authStore.user?.token;

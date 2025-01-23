@@ -503,3 +503,638 @@
 [2025-01-23 13:23:04] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
 [2025-01-23 13:23:04] INFO: Dropped the test database
 [2025-01-23 13:23:04] INFO: Closed the database connection
+[2025-01-23 20:38:40] INFO: Plant model initialized
+[2025-01-23 20:38:40] INFO: User model initialized
+[2025-01-23 20:38:40] INFO: Message model initialized
+[2025-01-23 20:38:41] INFO: Connected to the database
+[2025-01-23 20:38:41] INFO: Server is running on port 4000
+[2025-01-23 20:41:07] INFO: Plant model initialized
+[2025-01-23 20:41:07] INFO: User model initialized
+[2025-01-23 20:41:08] INFO: Message model initialized
+[2025-01-23 20:41:08] INFO: Connected to the database
+[2025-01-23 20:41:08] INFO: Server is running on port 4000
+[2025-01-23 20:41:37] INFO: Plant model initialized
+[2025-01-23 20:41:37] INFO: User model initialized
+[2025-01-23 20:41:38] INFO: Message model initialized
+[2025-01-23 20:41:39] INFO: Connected to the database
+[2025-01-23 20:41:39] INFO: Server is running on port 4000
+[2025-01-23 20:42:31] INFO: Plant model initialized
+[2025-01-23 20:42:31] INFO: User model initialized
+[2025-01-23 20:42:31] INFO: Message model initialized
+[2025-01-23 20:42:40] INFO: Plant model initialized
+[2025-01-23 20:42:40] INFO: User model initialized
+[2025-01-23 20:42:41] INFO: Message model initialized
+[2025-01-23 20:42:41] INFO: Connected to the database
+[2025-01-23 20:42:41] INFO: Server is running on port 4000
+[2025-01-23 20:42:58] INFO: Plant model initialized
+[2025-01-23 20:42:58] INFO: User model initialized
+[2025-01-23 20:42:58] INFO: Message model initialized
+[2025-01-23 20:42:59] INFO: Connected to the database
+[2025-01-23 20:42:59] INFO: Server is running on port 4000
+[2025-01-23 20:45:02] INFO: Plant model initialized
+[2025-01-23 20:45:02] INFO: User model initialized
+[2025-01-23 20:45:02] INFO: Message model initialized
+[2025-01-23 20:45:03] INFO: Connected to the database
+[2025-01-23 20:45:03] INFO: Server is running on port 4000
+[2025-01-23 20:45:34] INFO: Plant model initialized
+[2025-01-23 20:45:34] INFO: User model initialized
+[2025-01-23 20:45:34] INFO: Message model initialized
+[2025-01-23 20:45:35] INFO: Connected to the database
+[2025-01-23 20:45:35] INFO: Server is running on port 4000
+[2025-01-23 20:45:47] INFO: Plant model initialized
+[2025-01-23 20:45:47] INFO: User model initialized
+[2025-01-23 20:45:47] INFO: Message model initialized
+[2025-01-23 20:45:48] INFO: Connected to the database
+[2025-01-23 20:45:48] INFO: Server is running on port 4000
+[2025-01-23 20:46:08] INFO: Plant model initialized
+[2025-01-23 20:46:08] INFO: User model initialized
+[2025-01-23 20:46:08] INFO: Message model initialized
+[2025-01-23 20:46:09] INFO: Connected to the database
+[2025-01-23 20:46:09] INFO: Server is running on port 4000
+[2025-01-23 20:46:16] INFO: Plant model initialized
+[2025-01-23 20:46:16] INFO: User model initialized
+[2025-01-23 20:46:16] INFO: Message model initialized
+[2025-01-23 20:46:17] INFO: Connected to the database
+[2025-01-23 20:46:17] INFO: Server is running on port 4000
+[2025-01-23 20:46:52] INFO: Plant model initialized
+[2025-01-23 20:46:52] INFO: User model initialized
+[2025-01-23 20:46:52] INFO: Message model initialized
+[2025-01-23 20:46:53] INFO: Connected to the database
+[2025-01-23 20:46:53] INFO: Server is running on port 4000
+[2025-01-23 20:47:05] INFO: Plant model initialized
+[2025-01-23 20:47:05] INFO: User model initialized
+[2025-01-23 20:47:05] INFO: Message model initialized
+[2025-01-23 20:47:06] INFO: Connected to the database
+[2025-01-23 20:47:06] INFO: Server is running on port 4000
+[2025-01-23 20:47:25] INFO: Plant model initialized
+[2025-01-23 20:47:25] INFO: User model initialized
+[2025-01-23 20:47:25] INFO: Message model initialized
+[2025-01-23 20:47:26] INFO: Connected to the database
+[2025-01-23 20:47:26] INFO: Server is running on port 4000
+[2025-01-23 20:47:44] INFO: Plant model initialized
+[2025-01-23 20:47:44] INFO: User model initialized
+[2025-01-23 20:47:44] INFO: Message model initialized
+[2025-01-23 20:47:45] INFO: Connected to the database
+[2025-01-23 20:47:45] INFO: Server is running on port 4000
+[2025-01-23 20:48:42] INFO: Plant model initialized
+[2025-01-23 20:48:42] INFO: User model initialized
+[2025-01-23 20:48:43] INFO: Message model initialized
+[2025-01-23 20:48:43] INFO: Connected to the database
+[2025-01-23 20:48:43] INFO: Server is running on port 4000
+[2025-01-23 20:49:03] INFO: Plant model initialized
+[2025-01-23 20:49:03] INFO: User model initialized
+[2025-01-23 20:49:03] INFO: Message model initialized
+[2025-01-23 20:49:04] INFO: Connected to the database
+[2025-01-23 20:49:04] INFO: Server is running on port 4000
+[2025-01-23 20:49:53] INFO: Plant model initialized
+[2025-01-23 20:49:53] INFO: User model initialized
+[2025-01-23 20:49:53] INFO: Message model initialized
+[2025-01-23 20:49:54] INFO: Connected to the database
+[2025-01-23 20:49:54] INFO: Server is running on port 4000
+[2025-01-23 20:51:24] INFO: Plant model initialized
+[2025-01-23 20:51:24] INFO: User model initialized
+[2025-01-23 20:51:24] INFO: Message model initialized
+[2025-01-23 20:51:25] INFO: Connected to the database
+[2025-01-23 20:51:25] INFO: Server is running on port 4000
+[2025-01-23 20:52:03] INFO: Plant model initialized
+[2025-01-23 20:52:03] INFO: User model initialized
+[2025-01-23 20:52:03] INFO: Message model initialized
+[2025-01-23 20:52:04] INFO: Connected to the database
+[2025-01-23 20:52:04] INFO: Server is running on port 4000
+[2025-01-23 20:52:22] INFO: Plant model initialized
+[2025-01-23 20:52:22] INFO: User model initialized
+[2025-01-23 20:52:23] INFO: Message model initialized
+[2025-01-23 20:52:23] INFO: Connected to the database
+[2025-01-23 20:52:23] INFO: Server is running on port 4000
+[2025-01-23 20:52:37] INFO: Plant model initialized
+[2025-01-23 20:52:37] INFO: User model initialized
+[2025-01-23 20:52:38] INFO: Message model initialized
+[2025-01-23 20:54:15] INFO: Plant model initialized
+[2025-01-23 20:54:15] INFO: User model initialized
+[2025-01-23 20:54:16] INFO: Message model initialized
+[2025-01-23 20:54:17] INFO: Connected to the database
+[2025-01-23 20:54:17] INFO: Server is running on port 4000
+[2025-01-23 20:54:47] INFO: Plant model initialized
+[2025-01-23 20:54:47] INFO: User model initialized
+[2025-01-23 20:54:47] INFO: Message model initialized
+[2025-01-23 20:54:48] INFO: Connected to the database
+[2025-01-23 20:54:48] INFO: Server is running on port 4000
+[2025-01-23 20:55:58] INFO: Plant model initialized
+[2025-01-23 20:55:58] INFO: User model initialized
+[2025-01-23 20:55:58] INFO: Message model initialized
+[2025-01-23 20:55:59] INFO: Connected to the database
+[2025-01-23 20:55:59] INFO: Server is running on port 4000
+[2025-01-23 20:56:28] INFO: Plant model initialized
+[2025-01-23 20:56:28] INFO: User model initialized
+[2025-01-23 20:56:28] INFO: Message model initialized
+[2025-01-23 20:56:29] INFO: Connected to the database
+[2025-01-23 20:56:29] INFO: Server is running on port 4000
+[2025-01-23 20:56:51] INFO: Plant model initialized
+[2025-01-23 20:56:51] INFO: User model initialized
+[2025-01-23 20:56:51] INFO: Message model initialized
+[2025-01-23 20:56:52] INFO: Connected to the database
+[2025-01-23 20:56:52] INFO: Server is running on port 4000
+[2025-01-23 20:57:04] INFO: Plant model initialized
+[2025-01-23 20:57:04] INFO: User model initialized
+[2025-01-23 20:57:04] INFO: Message model initialized
+[2025-01-23 20:57:05] WARN: User not found
+[2025-01-23 20:57:05] WARN: User not found
+[2025-01-23 20:57:05] WARN: User not found
+[2025-01-23 20:57:05] WARN: User not found
+[2025-01-23 20:58:12] INFO: Plant model initialized
+[2025-01-23 20:58:12] INFO: User model initialized
+[2025-01-23 20:58:12] INFO: Message model initialized
+[2025-01-23 20:58:13] INFO: Connected to the database
+[2025-01-23 20:58:13] INFO: Server is running on port 4000
+[2025-01-23 20:58:16] INFO: Plant model initialized
+[2025-01-23 20:58:16] INFO: User model initialized
+[2025-01-23 20:58:16] INFO: Message model initialized
+[2025-01-23 20:58:17] INFO: User testUserId created a new plant
+[2025-01-23 20:58:17] INFO: Plant created by user testUserId
+[2025-01-23 20:58:17] INFO: User testUserId fetched plant 67929f59ac919978fc7ed326
+[2025-01-23 20:58:17] INFO: Plant fetched with ID: 67929f59ac919978fc7ed326
+[2025-01-23 20:58:17] INFO: User testUserId updated plant 67929f59ac919978fc7ed326
+[2025-01-23 20:58:17] INFO: Plant updated with ID: 67929f59ac919978fc7ed326
+[2025-01-23 20:58:17] INFO: User testUserId deleted plant 67929f59ac919978fc7ed326
+[2025-01-23 20:58:17] INFO: Plant deleted with ID: 67929f59ac919978fc7ed326
+[2025-01-23 20:59:32] INFO: Plant model initialized
+[2025-01-23 20:59:32] INFO: User model initialized
+[2025-01-23 20:59:33] INFO: Message model initialized
+[2025-01-23 20:59:34] INFO: Connected to the database
+[2025-01-23 20:59:34] INFO: Server is running on port 4000
+[2025-01-23 21:04:16] INFO: Plant model initialized
+[2025-01-23 21:04:16] INFO: User model initialized
+[2025-01-23 21:04:17] INFO: Message model initialized
+[2025-01-23 21:04:17] INFO: Connected to the database
+[2025-01-23 21:04:17] INFO: Server is running on port 4000
+[2025-01-23 21:05:19] INFO: Plant model initialized
+[2025-01-23 21:05:19] INFO: User model initialized
+[2025-01-23 21:05:20] INFO: Message model initialized
+[2025-01-23 21:05:20] INFO: Connected to the database
+[2025-01-23 21:05:20] INFO: Server is running on port 4000
+[2025-01-23 21:05:44] INFO: Plant model initialized
+[2025-01-23 21:05:44] INFO: User model initialized
+[2025-01-23 21:05:44] INFO: Message model initialized
+[2025-01-23 21:05:45] INFO: Connected to the database
+[2025-01-23 21:05:45] INFO: Server is running on port 4000
+[2025-01-23 21:06:31] INFO: Plant model initialized
+[2025-01-23 21:06:31] INFO: User model initialized
+[2025-01-23 21:06:31] INFO: Message model initialized
+[2025-01-23 21:06:31] INFO: Connected to the database
+[2025-01-23 21:06:31] INFO: Server is running on port 4000
+[2025-01-23 21:08:29] INFO: Plant model initialized
+[2025-01-23 21:08:29] INFO: User model initialized
+[2025-01-23 21:08:29] INFO: Message model initialized
+[2025-01-23 21:08:30] INFO: Connected to the database
+[2025-01-23 21:08:30] INFO: Server is running on port 4000
+[2025-01-23 21:08:39] INFO: Plant model initialized
+[2025-01-23 21:08:39] INFO: User model initialized
+[2025-01-23 21:08:39] INFO: Message model initialized
+[2025-01-23 21:08:40] INFO: Connected to the database
+[2025-01-23 21:08:40] INFO: Server is running on port 4000
+[2025-01-23 21:08:50] INFO: Plant model initialized
+[2025-01-23 21:08:50] INFO: User model initialized
+[2025-01-23 21:08:50] INFO: Message model initialized
+[2025-01-23 21:08:51] INFO: Connected to the database
+[2025-01-23 21:08:51] INFO: Server is running on port 4000
+[2025-01-23 21:09:04] INFO: Plant model initialized
+[2025-01-23 21:09:04] INFO: User model initialized
+[2025-01-23 21:09:04] INFO: Message model initialized
+[2025-01-23 21:09:04] INFO: Plant model initialized
+[2025-01-23 21:09:04] INFO: User model initialized
+[2025-01-23 21:09:04] INFO: Message model initialized
+[2025-01-23 21:09:05] INFO: User testUserId created a new plant
+[2025-01-23 21:09:05] WARN: Authorization token required
+[2025-01-23 21:09:05] WARN: Invalid token format
+[2025-01-23 21:09:05] ERROR: Error verifying token jwt malformed
+[2025-01-23 21:09:05] WARN: Request is not authorized
+[2025-01-23 21:09:05] INFO: Plant created by user testUserId
+[2025-01-23 21:09:05] INFO: User testUserId fetched plant 6792a1e16ae2beebb2136c40
+[2025-01-23 21:09:05] WARN: User not found
+[2025-01-23 21:09:05] INFO: Plant fetched with ID: 6792a1e16ae2beebb2136c40
+[2025-01-23 21:09:05] WARN: User not found
+[2025-01-23 21:09:05] INFO: User testUserId updated plant 6792a1e16ae2beebb2136c40
+[2025-01-23 21:09:05] INFO: Plant updated with ID: 6792a1e16ae2beebb2136c40
+[2025-01-23 21:09:05] INFO: User testUserId deleted plant 6792a1e16ae2beebb2136c40
+[2025-01-23 21:09:05] INFO: Plant deleted with ID: 6792a1e16ae2beebb2136c40
+[2025-01-23 21:11:15] INFO: Plant model initialized
+[2025-01-23 21:11:15] INFO: User model initialized
+[2025-01-23 21:11:15] INFO: Message model initialized
+[2025-01-23 21:11:16] INFO: Connected to the database
+[2025-01-23 21:11:16] INFO: Server is running on port 4000
+[2025-01-23 21:12:53] INFO: Plant model initialized
+[2025-01-23 21:12:53] INFO: User model initialized
+[2025-01-23 21:12:53] INFO: Message model initialized
+[2025-01-23 21:12:54] INFO: Connected to the database
+[2025-01-23 21:12:54] INFO: Server is running on port 4000
+[2025-01-23 21:13:07] INFO: Plant model initialized
+[2025-01-23 21:13:07] INFO: User model initialized
+[2025-01-23 21:13:07] INFO: Message model initialized
+[2025-01-23 21:13:08] INFO: Connected to the database
+[2025-01-23 21:13:08] INFO: Server is running on port 4000
+[2025-01-23 21:13:17] INFO: Plant model initialized
+[2025-01-23 21:13:17] INFO: User model initialized
+[2025-01-23 21:13:17] INFO: Message model initialized
+[2025-01-23 21:13:18] INFO: Plant model initialized
+[2025-01-23 21:13:18] INFO: User model initialized
+[2025-01-23 21:13:18] INFO: Message model initialized
+[2025-01-23 21:13:18] INFO: User testUserId created a new plant
+[2025-01-23 21:13:18] INFO: Plant created by user testUserId
+[2025-01-23 21:13:18] INFO: User testUserId fetched plant 6792a2de44b6be78540a17d5
+[2025-01-23 21:13:18] INFO: Plant fetched with ID: 6792a2de44b6be78540a17d5
+[2025-01-23 21:13:18] INFO: User testUserId updated plant 6792a2de44b6be78540a17d5
+[2025-01-23 21:13:18] INFO: Plant updated with ID: 6792a2de44b6be78540a17d5
+[2025-01-23 21:13:18] INFO: User testUserId deleted plant 6792a2de44b6be78540a17d5
+[2025-01-23 21:13:18] INFO: Plant deleted with ID: 6792a2de44b6be78540a17d5
+[2025-01-23 21:13:18] WARN: Authorization token required
+[2025-01-23 21:13:18] WARN: Invalid token format
+[2025-01-23 21:13:18] ERROR: Error verifying token jwt malformed
+[2025-01-23 21:13:18] WARN: Request is not authorized
+[2025-01-23 21:13:19] WARN: User not found
+[2025-01-23 21:13:19] INFO: User authenticated: test@example.com
+[2025-01-23 21:13:19] INFO: User 6792a2ded26860aaab2c5af7 initiated profile update
+[2025-01-23 21:13:19] INFO: User updated: test@example.com
+[2025-01-23 21:15:47] INFO: Plant model initialized
+[2025-01-23 21:15:47] INFO: User model initialized
+[2025-01-23 21:15:47] INFO: Message model initialized
+[2025-01-23 21:15:48] INFO: Connected to the database
+[2025-01-23 21:15:48] INFO: Server is running on port 4000
+[2025-01-23 21:16:01] INFO: Plant model initialized
+[2025-01-23 21:16:01] INFO: User model initialized
+[2025-01-23 21:16:01] INFO: Message model initialized
+[2025-01-23 21:16:01] INFO: Plant model initialized
+[2025-01-23 21:16:01] INFO: User model initialized
+[2025-01-23 21:16:01] INFO: Message model initialized
+[2025-01-23 21:16:02] INFO: User testUserId created a new plant
+[2025-01-23 21:16:02] INFO: Plant created by user testUserId
+[2025-01-23 21:16:02] INFO: User testUserId fetched plant 6792a382213cad99fdbd382a
+[2025-01-23 21:16:02] WARN: Authorization token required
+[2025-01-23 21:16:02] INFO: Plant fetched with ID: 6792a382213cad99fdbd382a
+[2025-01-23 21:16:02] INFO: User testUserId updated plant 6792a382213cad99fdbd382a
+[2025-01-23 21:16:02] WARN: Invalid token format
+[2025-01-23 21:16:02] ERROR: Error verifying token jwt malformed
+[2025-01-23 21:16:02] WARN: Request is not authorized
+[2025-01-23 21:16:02] INFO: Plant updated with ID: 6792a382213cad99fdbd382a
+[2025-01-23 21:16:02] INFO: User testUserId deleted plant 6792a382213cad99fdbd382a
+[2025-01-23 21:16:02] WARN: User not found
+[2025-01-23 21:16:02] INFO: User authenticated: test@example.com
+[2025-01-23 21:16:02] INFO: User 6792a38204ed47ba9d1a60e9 initiated profile update
+[2025-01-23 21:16:02] INFO: Plant deleted with ID: 6792a382213cad99fdbd382a
+[2025-01-23 21:16:02] INFO: Plant model initialized
+[2025-01-23 21:16:02] INFO: User model initialized
+[2025-01-23 21:16:02] INFO: Message model initialized
+[2025-01-23 21:16:02] INFO: User updated: test@example.com
+[2025-01-23 21:16:03] INFO: Messages fetched successfully
+[2025-01-23 21:16:03] INFO: Messages fetched successfully
+[2025-01-23 21:17:28] INFO: User undefined initiated signup
+[2025-01-23 21:17:28] WARN: Missing required field: password
+[2025-01-23 21:17:32] INFO: User undefined initiated signup
+[2025-01-23 21:17:32] WARN: Missing required field: firstName
+[2025-01-23 21:17:38] INFO: User undefined initiated signup
+[2025-01-23 21:17:38] WARN: Missing required field: lastName
+[2025-01-23 21:17:40] INFO: User undefined initiated signup
+[2025-01-23 21:17:40] WARN: Missing required field: nickname
+[2025-01-23 21:17:41] INFO: User undefined initiated signup
+[2025-01-23 21:17:41] WARN: Weak password provided
+[2025-01-23 21:17:41] ERROR: Error during signup Password not strong enough
+[2025-01-23 21:18:16] INFO: User undefined initiated signup
+[2025-01-23 21:18:16] WARN: Weak password provided
+[2025-01-23 21:18:16] ERROR: Error during signup Password not strong enough
+[2025-01-23 21:18:22] INFO: User undefined initiated signup
+[2025-01-23 21:18:22] WARN: Weak password provided
+[2025-01-23 21:18:22] ERROR: Error during signup Password not strong enough
+[2025-01-23 21:22:33] INFO: Plant model initialized
+[2025-01-23 21:22:33] INFO: User model initialized
+[2025-01-23 21:22:33] INFO: Message model initialized
+[2025-01-23 21:22:34] INFO: Connected to the database
+[2025-01-23 21:22:34] INFO: Server is running on port 4000
+[2025-01-23 21:23:39] INFO: User undefined initiated signup
+[2025-01-23 21:23:39] WARN: Missing required field: firstName
+[2025-01-23 21:23:44] INFO: User undefined initiated signup
+[2025-01-23 21:23:44] WARN: Weak password provided
+[2025-01-23 21:23:44] ERROR: Error during signup Password must be at least 6 characters long
+[2025-01-23 21:25:54] INFO: Plant model initialized
+[2025-01-23 21:25:54] INFO: User model initialized
+[2025-01-23 21:25:54] INFO: Message model initialized
+[2025-01-23 21:25:55] INFO: Connected to the database
+[2025-01-23 21:25:55] INFO: Server is running on port 4000
+[2025-01-23 21:37:55] INFO: User undefined initiated signup
+[2025-01-23 21:37:55] WARN: Missing required field: email
+[2025-01-23 21:38:29] INFO: User undefined initiated signup
+[2025-01-23 21:38:30] INFO: User registered: test@gmail.com
+[2025-01-23 21:38:30] INFO: User registered: test@gmail.com
+[2025-01-23 21:45:20] INFO: User connected: VPUBQ9VnNZm0oRP0AAAB
+[2025-01-23 21:45:20] INFO: Messages fetched successfully
+[2025-01-23 21:45:30] INFO: User authenticated: test@gmail.com
+[2025-01-23 21:45:30] INFO: User 6792a8c63911edbd26baf2bf fetched their plants
+[2025-01-23 21:45:30] INFO: User 6792a8c63911edbd26baf2bf fetched their plants
+[2025-01-23 21:45:34] INFO: User disconnected: VPUBQ9VnNZm0oRP0AAAB
+[2025-01-23 21:47:10] INFO: User undefined initiated signup
+[2025-01-23 21:47:10] WARN: Weak password provided
+[2025-01-23 21:47:10] ERROR: Error during signup Password must be at least 6 characters long
+[2025-01-23 21:47:52] INFO: Plant model initialized
+[2025-01-23 21:47:52] INFO: User model initialized
+[2025-01-23 21:47:52] INFO: Message model initialized
+[2025-01-23 21:47:53] INFO: Connected to the database
+[2025-01-23 21:47:53] INFO: Server is running on port 4000
+[2025-01-23 21:48:53] INFO: User undefined initiated signup
+[2025-01-23 21:48:53] INFO: User registered: test@gmail.com
+[2025-01-23 21:48:53] INFO: User registered: test@gmail.com
+[2025-01-23 21:49:44] INFO: User authenticated: test@gmail.com
+[2025-01-23 21:49:44] INFO: User 6792ab359827edfc6a6d50d3 fetched their plants
+[2025-01-23 21:49:44] INFO: User 6792ab359827edfc6a6d50d3 fetched their plants
+[2025-01-23 21:49:46] INFO: User authenticated: test@gmail.com
+[2025-01-23 21:49:46] INFO: User 6792ab359827edfc6a6d50d3 fetched their plants
+[2025-01-23 21:49:46] INFO: User 6792ab359827edfc6a6d50d3 fetched their plants
+[2025-01-23 21:56:18] INFO: Plant model initialized
+[2025-01-23 21:56:18] INFO: User model initialized
+[2025-01-23 21:56:19] INFO: Message model initialized
+[2025-01-23 21:56:20] INFO: Connected to the database
+[2025-01-23 21:56:20] INFO: Server is running on port 4000
+[2025-01-23 21:58:00] INFO: Plant model initialized
+[2025-01-23 21:58:00] INFO: User model initialized
+[2025-01-23 21:58:00] INFO: Message model initialized
+[2025-01-23 21:58:01] INFO: Connected to the database
+[2025-01-23 21:59:46] INFO: User authenticated: test@gmail.com
+[2025-01-23 21:59:46] INFO: User 6792ab359827edfc6a6d50d3 fetched other users' plants
+[2025-01-23 21:59:46] INFO: User 6792ab359827edfc6a6d50d3 fetched other users' plants
+[2025-01-23 22:02:52] INFO: Plant model initialized
+[2025-01-23 22:02:52] INFO: User model initialized
+[2025-01-23 22:02:52] INFO: Message model initialized
+[2025-01-23 22:02:53] INFO: Connected to the database
+[2025-01-23 22:04:05] INFO: Plant model initialized
+[2025-01-23 22:04:05] INFO: User model initialized
+[2025-01-23 22:04:05] INFO: Message model initialized
+[2025-01-23 22:04:06] INFO: Connected to the database
+[2025-01-23 22:04:06] INFO: Server is running on port 4000
+[2025-01-23 22:05:35] INFO: Plant model initialized
+[2025-01-23 22:05:35] INFO: User model initialized
+[2025-01-23 22:05:35] INFO: Message model initialized
+[2025-01-23 22:05:36] INFO: Connected to the database
+[2025-01-23 22:05:36] INFO: Server is running on port 4000
+[2025-01-23 22:08:49] INFO: Plant model initialized
+[2025-01-23 22:08:49] INFO: User model initialized
+[2025-01-23 22:08:49] INFO: Message model initialized
+[2025-01-23 22:08:50] INFO: Connected to the database
+[2025-01-23 22:08:50] INFO: Server is running on port 4000
+[2025-01-23 22:10:02] INFO: Plant model initialized
+[2025-01-23 22:10:02] INFO: User model initialized
+[2025-01-23 22:10:02] INFO: Message model initialized
+[2025-01-23 22:10:03] INFO: Connected to the database
+[2025-01-23 22:10:03] INFO: Server is running on port 4000
+[2025-01-23 22:10:23] INFO: User undefined initiated login
+[2025-01-23 22:10:23] INFO: User logged in: test@gmail.com
+[2025-01-23 22:11:28] INFO: User undefined initiated login
+[2025-01-23 22:11:29] INFO: User logged in: test@gmail.com
+[2025-01-23 22:12:45] INFO: User undefined initiated login
+[2025-01-23 22:12:45] WARN: User not found: adsdd
+[2025-01-23 22:12:56] INFO: User undefined initiated signup
+[2025-01-23 22:12:56] WARN: Missing required field: firstName
+[2025-01-23 22:13:09] INFO: User undefined initiated signup
+[2025-01-23 22:13:09] WARN: Missing required field: firstName
+[2025-01-23 22:13:18] INFO: User undefined initiated signup
+[2025-01-23 22:13:18] WARN: Missing required field: firstName
+[2025-01-23 22:13:22] INFO: User undefined initiated signup
+[2025-01-23 22:13:22] INFO: User registered: test2@gmail.com
+[2025-01-23 22:13:22] INFO: User registered: test2@gmail.com
+[2025-01-23 22:17:42] INFO: Plant model initialized
+[2025-01-23 22:17:42] INFO: User model initialized
+[2025-01-23 22:17:42] INFO: Message model initialized
+[2025-01-23 22:17:43] INFO: Connected to the database
+[2025-01-23 22:17:43] INFO: Server is running on port 4000
+[2025-01-23 22:19:22] INFO: Plant model initialized
+[2025-01-23 22:19:22] INFO: User model initialized
+[2025-01-23 22:19:22] INFO: Message model initialized
+[2025-01-23 22:19:23] INFO: Connected to the database
+[2025-01-23 22:19:23] INFO: Server is running on port 4000
+[2025-01-23 22:20:05] INFO: User authenticated: test2@gmail.com
+[2025-01-23 22:20:05] INFO: User 6792b0f22ff275d7188e20e6 fetched other users' plants
+[2025-01-23 22:20:05] INFO: User 6792b0f22ff275d7188e20e6 fetched other users' plants
+[2025-01-23 22:20:07] INFO: User connected: ZrvSCtRMEOBBp17jAAAB
+[2025-01-23 22:20:07] INFO: Messages fetched successfully
+[2025-01-23 22:20:09] INFO: Message received from user test2@gmail.com: aghh
+[2025-01-23 22:20:09] INFO: Message saved: {
+  user: 'test2@gmail.com',
+  text: 'aghh',
+  createdAt: 2025-01-23T21:20:09.905Z,
+  _id: new ObjectId("6792b289516a582fc3332b26"),
+  __v: 0
+}
+[2025-01-23 22:20:16] INFO: User authenticated: test2@gmail.com
+[2025-01-23 22:20:16] INFO: User 6792b0f22ff275d7188e20e6 created a new plant
+[2025-01-23 22:20:16] INFO: Plant created by user 6792b0f22ff275d7188e20e6
+[2025-01-23 22:20:16] INFO: User authenticated: test2@gmail.com
+[2025-01-23 22:20:16] INFO: User 6792b0f22ff275d7188e20e6 fetched their plants
+[2025-01-23 22:20:17] INFO: User 6792b0f22ff275d7188e20e6 fetched their plants
+[2025-01-23 22:22:39] INFO: Plant model initialized
+[2025-01-23 22:22:39] INFO: User model initialized
+[2025-01-23 22:22:39] INFO: Message model initialized
+[2025-01-23 22:22:40] INFO: Connected to the database
+[2025-01-23 22:22:40] INFO: Server is running on port 4000
+[2025-01-23 22:22:41] INFO: User connected: yGHJuN-MBq8TbFevAAAB
+[2025-01-23 22:24:28] INFO: User disconnected: yGHJuN-MBq8TbFevAAAB
+[2025-01-23 22:25:11] INFO: User authenticated: test2@gmail.com
+[2025-01-23 22:25:11] INFO: User 6792b0f22ff275d7188e20e6 fetched other users' plants
+[2025-01-23 22:25:11] INFO: User 6792b0f22ff275d7188e20e6 fetched other users' plants
+[2025-01-23 22:27:13] INFO: Server is shutting down...
+[2025-01-23 22:27:33] INFO: Plant model initialized
+[2025-01-23 22:27:33] INFO: User model initialized
+[2025-01-23 22:27:33] INFO: Message model initialized
+[2025-01-23 22:27:33] INFO: Plant model initialized
+[2025-01-23 22:27:33] INFO: User model initialized
+[2025-01-23 22:27:33] INFO: Message model initialized
+[2025-01-23 22:27:33] INFO: Plant model initialized
+[2025-01-23 22:27:33] INFO: User model initialized
+[2025-01-23 22:27:33] INFO: Message model initialized
+[2025-01-23 22:27:34] INFO: User testUserId created a new plant
+[2025-01-23 22:27:35] INFO: Plant created by user testUserId
+[2025-01-23 22:27:35] INFO: User testUserId fetched plant 6792b4467dcc01611c46e7bd
+[2025-01-23 22:27:35] WARN: Authorization token required
+[2025-01-23 22:27:35] WARN: Invalid token format
+[2025-01-23 22:27:35] ERROR: Error verifying token jwt malformed
+[2025-01-23 22:27:35] INFO: Plant fetched with ID: 6792b4467dcc01611c46e7bd
+[2025-01-23 22:27:35] WARN: Request is not authorized
+[2025-01-23 22:27:35] INFO: Messages fetched successfully
+[2025-01-23 22:27:35] INFO: User testUserId updated plant 6792b4467dcc01611c46e7bd
+[2025-01-23 22:27:35] WARN: User not found
+[2025-01-23 22:27:35] INFO: Plant updated with ID: 6792b4467dcc01611c46e7bd
+[2025-01-23 22:27:35] INFO: User testUserId deleted plant 6792b4467dcc01611c46e7bd
+[2025-01-23 22:27:35] INFO: Messages fetched successfully
+[2025-01-23 22:27:35] INFO: User authenticated: test@example.com
+[2025-01-23 22:27:35] INFO: User 6792b4469e041bedce4f600c initiated profile update
+[2025-01-23 22:27:35] INFO: Plant deleted with ID: 6792b4467dcc01611c46e7bd
+[2025-01-23 22:27:35] INFO: User updated: test@example.com
+[2025-01-23 22:29:08] INFO: Plant model initialized
+[2025-01-23 22:29:08] INFO: User model initialized
+[2025-01-23 22:29:09] INFO: Message model initialized
+[2025-01-23 22:29:09] INFO: Connected to the database
+[2025-01-23 22:29:09] INFO: Server is running on port 4000
+[2025-01-23 22:30:01] INFO: User undefined initiated signup
+[2025-01-23 22:30:01] INFO: User registered: test@gmail.com
+[2025-01-23 22:30:01] INFO: User registered: test@gmail.com
+[2025-01-23 22:32:31] INFO: Plant model initialized
+[2025-01-23 22:32:31] INFO: User model initialized
+[2025-01-23 22:32:32] INFO: Message model initialized
+[2025-01-23 22:32:33] INFO: Connected to the database
+[2025-01-23 22:32:33] INFO: Server is running on port 4000
+[2025-01-23 22:33:18] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:33:18] INFO: User 6792b4d99eec7af5c9e8fc93 initiated profile update
+[2025-01-23 22:33:18] INFO: User updated: test@gmail.com
+[2025-01-23 22:33:34] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:33:34] INFO: User 6792b4d99eec7af5c9e8fc93 fetched other users' plants
+[2025-01-23 22:33:34] INFO: User 6792b4d99eec7af5c9e8fc93 fetched other users' plants
+[2025-01-23 22:33:45] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:33:45] INFO: User 6792b4d99eec7af5c9e8fc93 created a new plant
+[2025-01-23 22:33:45] INFO: Plant created by user 6792b4d99eec7af5c9e8fc93
+[2025-01-23 22:33:46] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:33:46] INFO: User 6792b4d99eec7af5c9e8fc93 fetched their plants
+[2025-01-23 22:33:46] INFO: User 6792b4d99eec7af5c9e8fc93 fetched their plants
+[2025-01-23 22:33:50] INFO: User connected: CtCBtrAIxIc1cgveAAAB
+[2025-01-23 22:33:50] INFO: Messages fetched successfully
+[2025-01-23 22:33:52] INFO: Message received from user test@gmail.com: asassasaas
+[2025-01-23 22:33:52] INFO: Message saved: {
+  user: 'test@gmail.com',
+  text: 'asassasaas',
+  createdAt: 2025-01-23T21:33:52.946Z,
+  _id: new ObjectId("6792b5c0d689884244d982cd"),
+  __v: 0
+}
+[2025-01-23 22:33:55] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:33:55] INFO: User 6792b4d99eec7af5c9e8fc93 fetched other users' plants
+[2025-01-23 22:33:56] INFO: User 6792b4d99eec7af5c9e8fc93 fetched other users' plants
+[2025-01-23 22:33:59] INFO: User disconnected: CtCBtrAIxIc1cgveAAAB
+[2025-01-23 22:34:13] INFO: User undefined initiated signup
+[2025-01-23 22:34:13] WARN: Missing required field: firstName
+[2025-01-23 22:34:17] INFO: User undefined initiated signup
+[2025-01-23 22:34:17] INFO: User registered: help@gmail.com
+[2025-01-23 22:34:17] INFO: User registered: help@gmail.com
+[2025-01-23 22:34:23] INFO: User authenticated: help@gmail.com
+[2025-01-23 22:34:23] INFO: User 6792b5d9d689884244d982d2 initiated profile update
+[2025-01-23 22:34:23] INFO: User updated: help@gmail.com
+[2025-01-23 22:34:28] INFO: User connected: MwjFDRW40DqC39yXAAAD
+[2025-01-23 22:34:28] INFO: Messages fetched successfully
+[2025-01-23 22:34:40] INFO: User disconnected: MwjFDRW40DqC39yXAAAD
+[2025-01-23 22:34:41] INFO: Messages fetched successfully
+[2025-01-23 22:34:41] INFO: User connected: fKrbNRTZKHSpUyffAAAF
+[2025-01-23 22:34:49] INFO: Message received from user help@gmail.com: fasfas
+[2025-01-23 22:34:49] INFO: Message saved: {
+  user: 'help@gmail.com',
+  text: 'fasfas',
+  createdAt: 2025-01-23T21:34:49.299Z,
+  _id: new ObjectId("6792b5f9d689884244d982d9"),
+  __v: 0
+}
+[2025-01-23 22:36:17] INFO: User disconnected: fKrbNRTZKHSpUyffAAAF
+[2025-01-23 22:36:19] INFO: Messages fetched successfully
+[2025-01-23 22:36:19] INFO: User connected: PLCsZfL4hBgTpoVFAAAH
+[2025-01-23 22:36:32] INFO: User disconnected: PLCsZfL4hBgTpoVFAAAH
+[2025-01-23 22:36:33] INFO: Messages fetched successfully
+[2025-01-23 22:36:33] INFO: User connected: sEE69bHp_Zl-ST6NAAAJ
+[2025-01-23 22:36:37] INFO: User disconnected: sEE69bHp_Zl-ST6NAAAJ
+[2025-01-23 22:36:38] INFO: Messages fetched successfully
+[2025-01-23 22:36:38] INFO: User connected: 8IkRJycr4iA-6jN2AAAL
+[2025-01-23 22:36:46] INFO: User disconnected: 8IkRJycr4iA-6jN2AAAL
+[2025-01-23 22:37:11] INFO: User undefined initiated signup
+[2025-01-23 22:37:11] WARN: Weak password provided
+[2025-01-23 22:37:11] ERROR: Error during signup Password must be at least 6 characters long
+[2025-01-23 22:37:31] INFO: User undefined initiated signup
+[2025-01-23 22:37:31] INFO: User registered: nevim@gmail.com
+[2025-01-23 22:37:31] INFO: User registered: nevim@gmail.com
+[2025-01-23 22:37:43] INFO: User authenticated: nevim@gmail.com
+[2025-01-23 22:37:43] INFO: User 6792b69bd689884244d982df initiated profile update
+[2025-01-23 22:37:43] INFO: User updated: nevim@gmail.com
+[2025-01-23 22:37:46] INFO: User authenticated: nevim@gmail.com
+[2025-01-23 22:37:46] INFO: User 6792b69bd689884244d982df fetched other users' plants
+[2025-01-23 22:37:46] INFO: User 6792b69bd689884244d982df fetched other users' plants
+[2025-01-23 22:37:48] INFO: User authenticated: nevim@gmail.com
+[2025-01-23 22:37:48] INFO: User 6792b69bd689884244d982df liked plant 6792b5b9d689884244d982c8
+[2025-01-23 22:37:49] INFO: User nevim@gmail.com liked plant 6792b5b9d689884244d982c8
+[2025-01-23 22:37:50] INFO: User connected: MSp0qb_hEWXxtOu9AAAN
+[2025-01-23 22:37:50] INFO: Messages fetched successfully
+[2025-01-23 22:37:52] INFO: User authenticated: nevim@gmail.com
+[2025-01-23 22:37:52] INFO: User 6792b69bd689884244d982df fetched other users' plants
+[2025-01-23 22:37:52] INFO: User 6792b69bd689884244d982df fetched other users' plants
+[2025-01-23 22:37:53] INFO: User connected: 0EOKSC5Z5kMNG14jAAAP
+[2025-01-23 22:37:53] INFO: Messages fetched successfully
+[2025-01-23 22:37:55] INFO: Message received from user nevim@gmail.com: asasffsa
+[2025-01-23 22:37:55] INFO: Message saved: {
+  user: 'nevim@gmail.com',
+  text: 'asasffsa',
+  createdAt: 2025-01-23T21:37:55.157Z,
+  _id: new ObjectId("6792b6b3d689884244d982ed"),
+  __v: 0
+}
+[2025-01-23 22:37:57] INFO: User authenticated: nevim@gmail.com
+[2025-01-23 22:37:57] INFO: User 6792b69bd689884244d982df fetched their plants
+[2025-01-23 22:37:57] INFO: User 6792b69bd689884244d982df fetched their plants
+[2025-01-23 22:38:11] INFO: User disconnected: MSp0qb_hEWXxtOu9AAAN
+[2025-01-23 22:38:11] INFO: User disconnected: 0EOKSC5Z5kMNG14jAAAP
+[2025-01-23 22:40:48] INFO: Plant model initialized
+[2025-01-23 22:40:48] INFO: User model initialized
+[2025-01-23 22:40:48] INFO: Message model initialized
+[2025-01-23 22:40:49] INFO: Connected to the database
+[2025-01-23 22:40:49] INFO: Server is running on port 4000
+[2025-01-23 22:42:02] INFO: User undefined initiated login
+[2025-01-23 22:42:02] INFO: User logged in: test@gmail.com
+[2025-01-23 22:42:09] INFO: User undefined initiated login
+[2025-01-23 22:42:09] WARN: Missing required field: emailOrNickname
+[2025-01-23 22:42:41] INFO: User undefined initiated login
+[2025-01-23 22:42:41] INFO: User logged in: test@gmail.com
+[2025-01-23 22:42:42] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:42:42] INFO: User 6792b4d99eec7af5c9e8fc93 fetched their plants
+[2025-01-23 22:42:42] INFO: User 6792b4d99eec7af5c9e8fc93 fetched their plants
+[2025-01-23 22:42:45] INFO: User connected: gB2m9NpCqHNCewW4AAAB
+[2025-01-23 22:42:45] INFO: Messages fetched successfully
+[2025-01-23 22:42:52] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:42:52] INFO: User 6792b4d99eec7af5c9e8fc93 created a new plant
+[2025-01-23 22:42:53] INFO: Plant created by user 6792b4d99eec7af5c9e8fc93
+[2025-01-23 22:42:53] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:42:53] INFO: User 6792b4d99eec7af5c9e8fc93 fetched their plants
+[2025-01-23 22:42:53] INFO: User 6792b4d99eec7af5c9e8fc93 fetched their plants
+[2025-01-23 22:42:57] INFO: User connected: H_Cje5PkxCBYBKvQAAAD
+[2025-01-23 22:42:57] INFO: Messages fetched successfully
+[2025-01-23 22:42:59] INFO: Message received from user test@gmail.com: dfnfddfndfn
+[2025-01-23 22:42:59] INFO: Message saved: {
+  user: 'test@gmail.com',
+  text: 'dfnfddfndfn',
+  createdAt: 2025-01-23T21:42:59.778Z,
+  _id: new ObjectId("6792b7e39e16f3a0022380e4"),
+  __v: 0
+}
+[2025-01-23 22:43:12] INFO: User authenticated: test@gmail.com
+[2025-01-23 22:43:12] INFO: User 6792b4d99eec7af5c9e8fc93 initiated profile update
+[2025-01-23 22:43:12] INFO: User updated: test@gmail.com
+[2025-01-23 22:43:36] INFO: Plant model initialized
+[2025-01-23 22:43:36] INFO: Plant model initialized
+[2025-01-23 22:43:36] INFO: User model initialized
+[2025-01-23 22:43:36] INFO: Message model initialized
+[2025-01-23 22:43:36] INFO: User model initialized
+[2025-01-23 22:43:36] INFO: Message model initialized
+[2025-01-23 22:43:36] INFO: Plant model initialized
+[2025-01-23 22:43:36] INFO: User model initialized
+[2025-01-23 22:43:36] INFO: Message model initialized
+[2025-01-23 22:43:37] INFO: User testUserId created a new plant
+[2025-01-23 22:43:37] INFO: Plant created by user testUserId
+[2025-01-23 22:43:37] INFO: User testUserId fetched plant 6792b80960c4d39d6c917507
+[2025-01-23 22:43:37] WARN: Authorization token required
+[2025-01-23 22:43:37] INFO: Messages fetched successfully
+[2025-01-23 22:43:37] WARN: Invalid token format
+[2025-01-23 22:43:37] INFO: Plant fetched with ID: 6792b80960c4d39d6c917507
+[2025-01-23 22:43:37] INFO: User testUserId updated plant 6792b80960c4d39d6c917507
+[2025-01-23 22:43:37] ERROR: Error verifying token jwt malformed
+[2025-01-23 22:43:37] WARN: Request is not authorized
+[2025-01-23 22:43:37] INFO: Plant updated with ID: 6792b80960c4d39d6c917507
+[2025-01-23 22:43:37] INFO: User testUserId deleted plant 6792b80960c4d39d6c917507
+[2025-01-23 22:43:37] WARN: User not found
+[2025-01-23 22:43:37] INFO: Messages fetched successfully
+[2025-01-23 22:43:37] INFO: User authenticated: test@example.com
+[2025-01-23 22:43:37] INFO: User 6792b809052f2c5a6f82b1c3 initiated profile update
+[2025-01-23 22:43:37] INFO: Plant deleted with ID: 6792b80960c4d39d6c917507
+[2025-01-23 22:43:37] INFO: User updated: test@example.com
+[2025-01-23 22:45:53] INFO: Plant model initialized
+[2025-01-23 22:45:53] INFO: User model initialized
+[2025-01-23 22:45:54] INFO: Message model initialized
+[2025-01-23 22:45:55] INFO: Connected to the database
+[2025-01-23 22:45:55] INFO: Server is running on port 4000
+[2025-01-23 22:45:55] INFO: User connected: sBo2GtiTZ50Xw59xAAAB
+[2025-01-23 22:45:55] INFO: User connected: -x2alrA0VJiThrQFAAAD

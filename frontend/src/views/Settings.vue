@@ -79,12 +79,13 @@ export default defineComponent({
 
     // Načtení aktuálních informací o uživateli
     onMounted(() => {
+      console.log('Current user:', authStore.user); // Debugging line
       if (authStore.user) {
         firstName.value = authStore.user.firstName || '';
         lastName.value = authStore.user.lastName || '';
         nickname.value = authStore.user.nickname || '';
       }
-      themeStore.initializeTheme(); // Inicializace tématu
+      themeStore.initializeTheme();
     });
 
     // Odeslání formuláře

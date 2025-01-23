@@ -103,5 +103,22 @@ if (process.env.NODE_ENV !== 'test') {
     startServer();
 }
 
+// Graceful shutdown
+process.on('SIGINT', () => {
+    logger.info('Server is shutting down...');
+    server.close(() => {
+        logger.info('Server has been shut down.');
+        process.exit(0);
+    });
+});
+
+process.on('SIGTERM', () => {
+    logger.info('Server is shutting down...');
+    server.close(() => {
+        logger.info('Server has been shut down.');
+        process.exit(0);
+    });
+});
+
 // Export the app instance and startServer function for testing
 export { app, startServer };
