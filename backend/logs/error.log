@@ -15,3 +15,8 @@
 [2025-01-23 04:13:55] ERROR: Error verifying token jwt malformed
 [2025-01-23 04:13:55] ERROR: Error verifying token jwt malformed
 [2025-01-23 04:28:18] ERROR: Error during global teardown: user is not allowed to do action [dropDatabase] on [test.]
+[2025-01-23 13:17:12] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:17:12] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:21:57] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:22:25] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:23:04] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms

@@ -74,13 +74,16 @@ const setupSocketIO = () => {
 // Start the server
 const startServer = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || '');
-        logger.info('Connected to the database');
+        // Skip database connection and server startup in test environment
+        if (process.env.NODE_ENV !== 'test') {
+            await mongoose.connect(process.env.MONGO_URI || '');
+            logger.info('Connected to the database');
 
-        const port = process.env.PORT || 4000;
-        server.listen(port, () => {
-            logger.info(`Server is running on port ${port}`);
-        });
+            const port = process.env.PORT || 4000;
+            server.listen(port, () => {
+                logger.info(`Server is running on port ${port}`);
+            });
+        }
     } catch (err) {
         // Safely handle the 'unknown' type
         if (err instanceof Error) {
@@ -92,9 +95,13 @@ const startServer = async () => {
     }
 };
 
-// Initialize Socket.IO and start the server
+// Initialize Socket.IO
 setupSocketIO();
-startServer();
 
-// Export the app instance for testing
-export default app;
+// Start the server (skip in test environment)
+if (process.env.NODE_ENV !== 'test') {
+    startServer();
+}
+
+// Export the app instance and startServer function for testing
+export { app, startServer };

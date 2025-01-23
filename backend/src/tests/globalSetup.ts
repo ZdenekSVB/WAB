@@ -1,24 +1,25 @@
-// src/tests/globalSetup.ts
 import mongoose from 'mongoose';
-import app from '../server'; // Import your Express app
+import { startServer } from '../server'; // Import the startServer function
 import logger from '../services/loggingService';
 
-// Use a different port for testing
+// Use the test port from .env.test
 const port = process.env.TEST_PORT || 5000;
 
 export default async () => {
     try {
-        // Check if a connection already exists
-        if (mongoose.connection.readyState === 0) { // 0 = disconnected
-            const testDbUri = process.env.TEST_MONGO_URI || 'mongodb://localhost:27017/garden-buddy-test';
-            await mongoose.connect(testDbUri);
-            logger.info('Connected to the test database');
+        // Connect to the test database with a longer timeout
+        const testDbUri = process.env.TEST_MONGO_URI;
+        if (!testDbUri) {
+            throw new Error('TEST_MONGO_URI is not defined in .env.test');
         }
+        await mongoose.connect(testDbUri, {
+            serverSelectionTimeoutMS: 30000, // 30 seconds
+            socketTimeoutMS: 30000, // 30 seconds
+        });
+        logger.info('Connected to the test database');
 
         // Start the server on the test port
-        app.listen(port, () => {
-            logger.info(`Server is running on port ${port}`);
-        });
+        await startServer();
     } catch (err) {
         logger.error('Error during global setup:', err);
         process.exit(1);
