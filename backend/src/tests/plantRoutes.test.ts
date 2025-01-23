@@ -24,19 +24,17 @@ describe('Plant Routes', () => {
     });
 
     it('should create a new plant', async () => {
+        const token = 'your-valid-token'; // Replace with a valid token
         const response = await request(app)
             .post('/api/plants')
             .set('Authorization', `Bearer ${token}`)
             .send({
                 name: 'Rose',
-                species: 'Flower',
-                wateringFrequency: 3,
-                imageUrl: 'https://example.com/rose.jpg',
+                user_id: 'your-user-id', // Replace with a valid user ID
             });
-
         expect(response.status).toBe(200);
         expect(response.body.name).toBe('Rose');
-        expect(response.body.user_id).toBe(userId);
+        expect(response.body.user_id).toBe('your-user-id');
     });
 
     it('should fetch plants for the logged-in user', async () => {

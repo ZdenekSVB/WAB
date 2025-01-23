@@ -431,3 +431,75 @@
 [2025-01-23 04:28:07] INFO: Message model initialized
 [2025-01-23 04:28:12] INFO: User undefined initiated signup
 [2025-01-23 04:28:18] ERROR: Error during global teardown: user is not allowed to do action [dropDatabase] on [test.]
+[2025-01-23 12:28:44] INFO: Plant model initialized
+[2025-01-23 12:28:44] INFO: User model initialized
+[2025-01-23 12:28:44] INFO: Message model initialized
+[2025-01-23 12:28:47] INFO: Connected to the database
+[2025-01-23 12:28:47] INFO: Server is running on port 4000
+[2025-01-23 12:29:10] INFO: Plant model initialized
+[2025-01-23 12:29:10] INFO: User model initialized
+[2025-01-23 12:29:10] INFO: Message model initialized
+[2025-01-23 12:29:11] INFO: Server is running on port 5000
+[2025-01-23 12:29:12] INFO: Connected to the database
+[2025-01-23 13:16:52] INFO: Plant model initialized
+[2025-01-23 13:16:52] INFO: User model initialized
+[2025-01-23 13:16:52] INFO: Message model initialized
+[2025-01-23 13:16:52] INFO: Connected to the test database
+[2025-01-23 13:17:02] INFO: Plant model initialized
+[2025-01-23 13:17:02] INFO: Plant model initialized
+[2025-01-23 13:17:02] INFO: User model initialized
+[2025-01-23 13:17:02] INFO: User undefined initiated signup
+[2025-01-23 13:17:02] INFO: User model initialized
+[2025-01-23 13:17:02] INFO: User undefined initiated signup
+[2025-01-23 13:17:02] INFO: Plant model initialized
+[2025-01-23 13:17:02] INFO: User model initialized
+[2025-01-23 13:17:02] INFO: Message model initialized
+[2025-01-23 13:17:12] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:17:12] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:17:12] INFO: Dropped the test database
+[2025-01-23 13:17:12] INFO: Closed the database connection
+[2025-01-23 13:21:36] INFO: Plant model initialized
+[2025-01-23 13:21:36] INFO: User model initialized
+[2025-01-23 13:21:36] INFO: Message model initialized
+[2025-01-23 13:21:37] INFO: Connected to the test database
+[2025-01-23 13:21:45] INFO: Plant model initialized
+[2025-01-23 13:21:45] INFO: User model initialized
+[2025-01-23 13:21:46] INFO: Message model initialized
+[2025-01-23 13:21:46] INFO: Plant model initialized
+[2025-01-23 13:21:47] INFO: User model initialized
+[2025-01-23 13:21:47] INFO: User undefined initiated signup
+[2025-01-23 13:21:47] INFO: Plant model initialized
+[2025-01-23 13:21:47] INFO: User model initialized
+[2025-01-23 13:21:57] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:21:57] INFO: Dropped the test database
+[2025-01-23 13:21:57] INFO: Closed the database connection
+[2025-01-23 13:22:08] INFO: Plant model initialized
+[2025-01-23 13:22:08] INFO: User model initialized
+[2025-01-23 13:22:08] INFO: Message model initialized
+[2025-01-23 13:22:08] INFO: Connected to the test database
+[2025-01-23 13:22:15] INFO: Plant model initialized
+[2025-01-23 13:22:15] INFO: User model initialized
+[2025-01-23 13:22:15] INFO: Message model initialized
+[2025-01-23 13:22:15] INFO: Plant model initialized
+[2025-01-23 13:22:15] INFO: Plant model initialized
+[2025-01-23 13:22:15] INFO: User model initialized
+[2025-01-23 13:22:15] INFO: User undefined initiated signup
+[2025-01-23 13:22:15] INFO: User model initialized
+[2025-01-23 13:22:25] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:22:25] INFO: Dropped the test database
+[2025-01-23 13:22:25] INFO: Closed the database connection
+[2025-01-23 13:22:47] INFO: Plant model initialized
+[2025-01-23 13:22:47] INFO: User model initialized
+[2025-01-23 13:22:47] INFO: Message model initialized
+[2025-01-23 13:22:48] INFO: Connected to the test database
+[2025-01-23 13:22:54] INFO: Plant model initialized
+[2025-01-23 13:22:54] INFO: User model initialized
+[2025-01-23 13:22:54] INFO: User undefined initiated signup
+[2025-01-23 13:22:54] INFO: Plant model initialized
+[2025-01-23 13:22:54] INFO: User model initialized
+[2025-01-23 13:22:54] INFO: Message model initialized
+[2025-01-23 13:22:54] INFO: Plant model initialized
+[2025-01-23 13:22:54] INFO: User model initialized
+[2025-01-23 13:23:04] ERROR: Error during signup Operation `users.findOne()` buffering timed out after 10000ms
+[2025-01-23 13:23:04] INFO: Dropped the test database
+[2025-01-23 13:23:04] INFO: Closed the database connection
