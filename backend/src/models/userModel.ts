@@ -2,10 +2,33 @@ import mongoose, { Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
-import Plant from './plantModel'; // Importujte model Plant
+import Plant from './plantModel';
+import logger from '../services/loggingService';
 
 const Schema = mongoose.Schema;
 
+// Utility function to log model initialization
+const logModelInitialization = (modelName: string) => {
+  logger.info(`${modelName} model initialized`);
+};
+
+// Utility function to validate user input
+const validateUserInput = (email: string, password: string) => {
+  if (!email || !password) {
+    logger.warn('Missing required fields: email or password');
+    throw Error('All fields must be filled');
+  }
+  if (!validator.isEmail(email)) {
+    logger.warn(`Invalid email format: ${email}`);
+    throw Error('Email not valid');
+  }
+  if (!validator.isStrongPassword(password, { minLength: 6, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 0 })) {
+    logger.warn('Weak password provided');
+    throw Error('Password not strong enough');
+  }
+};
+
+// Definice rozhraní pro uživatele
 interface IUser extends Document {
   _id: string;
   email: string;
@@ -16,6 +39,7 @@ interface IUser extends Document {
   token?: string;
 }
 
+// Rozšíření modelu uživatele o statické metody
 interface UserModel extends Model<IUser> {
   signup(
       email: string,
@@ -28,50 +52,47 @@ interface UserModel extends Model<IUser> {
   deleteUser(userId: string): Promise<void>;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  firstName: {
-    type: String,
-    required: false, // Nepovinné
-  },
-  lastName: {
-    type: String,
-    required: false, // Nepovinné
-  },
-  nickname: {
-    type: String,
-    required: false, // Nepovinné
-  },
-}, { timestamps: true });
+// Schéma pro uživatele
+const userSchema = new mongoose.Schema(
+    {
+      email: {
+        type: String,
+        required: [true, 'Email is required'],
+        unique: true,
+      },
+      password: {
+        type: String,
+        required: [true, 'Password is required'],
+      },
+      firstName: {
+        type: String,
+        required: false,
+      },
+      lastName: {
+        type: String,
+        required: false,
+      },
+      nickname: {
+        type: String,
+        required: false,
+      },
+    },
+    { timestamps: true }
+);
 
 // Statická metoda pro registraci
-userSchema.statics.signup = async function(
+userSchema.statics.signup = async function (
     email: string,
     password: string,
     firstName?: string,
     lastName?: string,
     nickname?: string
 ): Promise<IUser> {
-  if (!email || !password) {
-    throw Error('All fields must be filled');
-  }
-  if (!validator.isEmail(email)) {
-    throw Error('Email not valid');
-  }
-  if (!validator.isStrongPassword(password)) {
-    throw Error('Password not strong enough');
-  }
+  validateUserInput(email, password);
 
   const exists = await this.findOne({ email });
   if (exists) {
+    logger.warn(`Email already in use: ${email}`);
     throw Error('Email already in use');
   }
 
@@ -79,36 +100,39 @@ userSchema.statics.signup = async function(
   const hash = await bcrypt.hash(password, salt);
 
   const user = await this.create({ email, password: hash, firstName, lastName, nickname });
+  logger.info(`User registered: ${user.email}`);
   return user;
 };
 
 // Statická metoda pro přihlášení
-userSchema.statics.login = async function(
+userSchema.statics.login = async function (
     email: string,
     password: string
 ): Promise<{ user: IUser; token: string }> {
-  if (!email || !password) {
-    throw Error('All fields must be filled');
-  }
+  validateUserInput(email, password);
 
   const user = await this.findOne({ email });
   if (!user) {
+    logger.warn(`User not found: ${email}`);
     throw Error('Incorrect email');
   }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
+    logger.warn(`Invalid password attempt for user: ${user.email}`);
     throw Error('Incorrect password');
   }
 
   const token = jwt.sign({ _id: user._id }, process.env.SECRET as string, { expiresIn: '3d' });
+  logger.info(`User logged in: ${user.email}`);
   return { user, token };
 };
 
 // Statická metoda pro smazání uživatele
-userSchema.statics.deleteUser = async function(userId: string): Promise<void> {
+userSchema.statics.deleteUser = async function (userId: string): Promise<void> {
   const user = await this.findById(userId);
   if (!user) {
+    logger.warn(`User not found: ${userId}`);
     throw Error('User not found');
   }
 
@@ -117,6 +141,13 @@ userSchema.statics.deleteUser = async function(userId: string): Promise<void> {
 
   // Smazání uživatele
   await this.deleteOne({ _id: userId });
+  logger.info(`User deleted: ${userId}`);
 };
 
-export default mongoose.model<IUser, UserModel>('User', userSchema);
+// Model pro uživatele
+const User = mongoose.model<IUser, UserModel>('User', userSchema);
+
+// Logování inicializace modelu
+logModelInitialization('User');
+
+export default User;

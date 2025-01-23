@@ -1,0 +1,17 @@
+[2025-01-23 04:05:49] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:05:49] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:05:49] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:05:49] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:05:49] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:05:49] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:09:50] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:09:50] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:09:50] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:09:50] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:09:50] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:09:50] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:13:55] ERROR: Error during signup Password not strong enough
+[2025-01-23 04:13:55] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:13:55] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:13:55] ERROR: Error verifying token jwt malformed
+[2025-01-23 04:28:18] ERROR: Error during global teardown: user is not allowed to do action [dropDatabase] on [test.]

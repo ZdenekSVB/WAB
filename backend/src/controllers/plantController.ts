@@ -1,75 +1,103 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import Plant from '../models/plantModel';
 import mongoose from 'mongoose';
 import { AuthenticatedRequest } from '../types';
+import logger from '../services/loggingService';
 
-const getMyPlants = async (req: AuthenticatedRequest, res: Response) => {
-  try {
-    const user_id = req.user?._id;
-    const plants = await Plant.find({ user_id }).sort({ createdAt: -1 });
-    res.status(200).json(plants);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
+// Utility function to handle errors
+const handleError = (res: Response, error: any, message: string, statusCode: number = 500) => {
+  logger.error(message, error);
+  res.status(statusCode).json({ error: message });
 };
 
-// GET všechny rostliny (pro prohlížení)
-const getAllPlants = async (req: AuthenticatedRequest, res: Response) => {
-  try {
-    const plants = await Plant.find().sort({ createdAt: -1 }); // Načti všechny rostliny
-    res.status(200).json(plants);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
-
-// GET rostliny konkrétního uživatele
-const getUserPlants = async (req: AuthenticatedRequest, res: Response) => {
-  const { userId } = req.params;
-
-  try {
-    const plants = await Plant.find({ user_id: userId }).sort({ createdAt: -1 });
-    res.status(200).json(plants);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
-
-const getPlant = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
+// Utility function to validate ObjectId
+const validateObjectId = (id: string, res: Response): boolean => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: 'No such plant' });
-    return;
+    logger.warn(`Invalid ID: ${id}`);
+    res.status(404).json({ error: 'Invalid ID' });
+    return false;
   }
+  return true;
+};
+
+// Utility function to find a plant by ID
+const findPlantById = async (id: string, res: Response) => {
+  if (!validateObjectId(id, res)) return null;
 
   try {
     const plant = await Plant.findById(id);
     if (!plant) {
+      logger.warn(`Plant not found with ID: ${id}`);
       res.status(404).json({ error: 'No such plant' });
-      return;
+      return null;
     }
-    res.status(200).json(plant);
+    return plant;
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    handleError(res, error, `Error fetching plant with ID: ${id}`);
+    return null;
   }
 };
 
+// Získání rostlin přihlášeného uživatele
+const getMyPlants = async (req: AuthenticatedRequest, res: Response) => {
+  const user_id = req.user?._id;
+  try {
+    const plants = await Plant.find({ user_id }).sort({ createdAt: -1 });
+    logger.info(`User ${user_id} fetched their plants`);
+    res.status(200).json(plants);
+  } catch (error) {
+    handleError(res, error, 'Error fetching user plants');
+  }
+};
+
+// Získání všech rostlin (pro prohlížení)
+const getAllPlants = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const plants = await Plant.find().sort({ createdAt: -1 });
+    logger.info('All plants fetched successfully');
+    res.status(200).json(plants);
+  } catch (error) {
+    handleError(res, error, 'Error fetching all plants');
+  }
+};
+
+// Získání rostlin konkrétního uživatele
+const getUserPlants = async (req: AuthenticatedRequest, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const plants = await Plant.find({ user_id: userId }).sort({ createdAt: -1 });
+    logger.info(`Plants for user ${userId} fetched successfully`);
+    res.status(200).json(plants);
+  } catch (error) {
+    handleError(res, error, `Error fetching plants for user ${userId}`);
+  }
+};
+
+// Získání jedné rostliny podle ID
+const getPlant = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const plant = await findPlantById(id, res);
+  if (plant) {
+    logger.info(`Plant fetched with ID: ${id}`);
+    res.status(200).json(plant);
+  }
+};
+
+// Vytvoření nové rostliny
 const createPlant = async (req: AuthenticatedRequest, res: Response) => {
   const { name, species, wateringFrequency, imageUrl } = req.body;
+  const user_id = req.user?._id;
 
   try {
-    const user_id = req.user?._id;
     const plant = await Plant.create({ name, species, wateringFrequency, imageUrl, user_id });
+    logger.info(`Plant created by user ${user_id}`);
     res.status(200).json(plant);
   } catch (error: any) {
-    res.status(400).json({ error: error.message });
+    handleError(res, error, 'Error creating plant', 400);
   }
 };
 
+// Aktualizace rostliny
 const updatePlant = async (req: AuthenticatedRequest, res: Response) => {
   const { id } = req.params;
   const { name, species, wateringFrequency, imageUrl } = req.body;
@@ -81,104 +109,95 @@ const updatePlant = async (req: AuthenticatedRequest, res: Response) => {
         { new: true }
     );
     if (!plant) {
-      res.status(400).json({ error: 'No such plant' });
-      return;
+      logger.warn(`Plant not found with ID: ${id}`);
+      return res.status(400).json({ error: 'No such plant' });
     }
+    logger.info(`Plant updated with ID: ${id}`);
     res.status(200).json(plant);
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    handleError(res, error, `Error updating plant with ID: ${id}`);
   }
 };
 
+// Smazání rostliny
 const deletePlant = async (req: Request, res: Response) => {
   const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: 'No such plant' });
-    return;
-  }
-
-  try {
-    const plant = await Plant.findOneAndDelete({ _id: id });
-    if (!plant) {
-      res.status(400).json({ error: 'No such plant' });
-      return;
+  const plant = await findPlantById(id, res);
+  if (plant) {
+    try {
+      await Plant.findOneAndDelete({ _id: id });
+      logger.info(`Plant deleted with ID: ${id}`);
+      res.status(200).json(plant);
+    } catch (error) {
+      handleError(res, error, `Error deleting plant with ID: ${id}`);
     }
-    res.status(200).json(plant);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
   }
 };
 
+// Lajkování rostliny
 const likePlant = async (req: AuthenticatedRequest, res: Response) => {
   const { plantId } = req.params;
-  const userEmail = req.user?.email; // Používáme email místo _id
+  const userEmail = req.user?.email;
 
   if (!userEmail) {
+    logger.warn('User not authenticated');
     return res.status(401).json({ error: 'User not authenticated' });
   }
 
-  try {
-    const plant = await Plant.findById(plantId);
-    if (!plant) {
-      return res.status(404).json({ error: 'Plant not found' });
-    }
+  const plant = await findPlantById(plantId, res);
+  if (!plant) return;
 
-    if (plant.user_id === req.user?._id) {
-      return res.status(400).json({ error: 'You cannot like your own plant' });
-    }
-
-    if (plant.likedBy.includes(userEmail)) {
-      return res.status(400).json({ error: 'You have already liked this plant' });
-    }
-
-    plant.likes += 1;
-    plant.likedBy.push(userEmail); // Ukládáme email uživatele
-    await plant.save();
-
-    res.status(200).json(plant);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+  if (plant.user_id === req.user?._id) {
+    logger.warn(`User ${userEmail} tried to like their own plant`);
+    return res.status(400).json({ error: 'You cannot like your own plant' });
   }
+
+  if (plant.likedBy.includes(userEmail)) {
+    logger.warn(`User ${userEmail} already liked plant ${plantId}`);
+    return res.status(400).json({ error: 'You have already liked this plant' });
+  }
+
+  plant.likes += 1;
+  plant.likedBy.push(userEmail);
+  await plant.save();
+  logger.info(`User ${userEmail} liked plant ${plantId}`);
+  res.status(200).json(plant);
 };
 
+// Odlajkování rostliny
 const unlikePlant = async (req: AuthenticatedRequest, res: Response) => {
   const { plantId } = req.params;
-  const userEmail = req.user?.email; // Používáme email místo _id
+  const userEmail = req.user?.email;
 
   if (!userEmail) {
+    logger.warn('User not authenticated');
     return res.status(401).json({ error: 'User not authenticated' });
   }
 
-  try {
-    const plant = await Plant.findById(plantId);
-    if (!plant) {
-      return res.status(404).json({ error: 'Plant not found' });
-    }
+  const plant = await findPlantById(plantId, res);
+  if (!plant) return;
 
-    if (plant.likedBy.includes(userEmail)) {
-      plant.likes -= 1;
-      plant.likedBy = plant.likedBy.filter((email: string) => email !== userEmail); // Odebereme email uživatele
-      await plant.save();
-      res.status(200).json(plant);
-    } else {
-      res.status(400).json({ error: 'You have not liked this plant' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+  if (plant.likedBy.includes(userEmail)) {
+    plant.likes -= 1;
+    plant.likedBy = plant.likedBy.filter((email: string) => email !== userEmail);
+    await plant.save();
+    logger.info(`User ${userEmail} unliked plant ${plantId}`);
+    res.status(200).json(plant);
+  } else {
+    logger.warn(`User ${userEmail} tried to unlike a plant they did not like`);
+    res.status(400).json({ error: 'You have not liked this plant' });
   }
 };
 
+// Získání rostlin ostatních uživatelů
 const getOtherUsersPlants = async (req: AuthenticatedRequest, res: Response) => {
+  const user_id = req.user?._id;
   try {
-    const user_id = req.user?._id;
     const plants = await Plant.find({ user_id: { $ne: user_id } }).sort({ createdAt: -1 });
+    logger.info(`User ${user_id} fetched other users' plants`);
     res.status(200).json(plants);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    handleError(res, error, 'Error fetching other users\' plants');
   }
 };
 

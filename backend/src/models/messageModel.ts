@@ -1,19 +1,27 @@
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import logger from '../services/loggingService';
 
+// Utility function to log model initialization
+const logModelInitialization = (modelName: string) => {
+    logger.info(`${modelName} model initialized`);
+};
+
+// Definice rozhraní pro zprávu
 interface IMessage extends Document {
     user: string;
     text: string;
-    createdAt: Date; // Přidej pole pro čas
+    createdAt: Date;
 }
 
+// Schéma pro zprávu
 const messageSchema: MongooseSchema<IMessage> = new MongooseSchema({
     user: {
         type: String,
-        required: true,
+        required: [true, 'User is required'], // Validace s chybovou zprávou
     },
     text: {
         type: String,
-        required: true,
+        required: [true, 'Text is required'], // Validace s chybovou zprávou
     },
     createdAt: {
         type: Date,
@@ -21,4 +29,10 @@ const messageSchema: MongooseSchema<IMessage> = new MongooseSchema({
     },
 });
 
-export default mongoose.model<IMessage>('Message', messageSchema);
+// Model pro zprávu
+const Message = mongoose.model<IMessage>('Message', messageSchema);
+
+// Logování inicializace modelu
+logModelInitialization('Message');
+
+export default Message;
