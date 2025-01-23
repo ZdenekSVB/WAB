@@ -2,9 +2,27 @@
   <v-container>
     <h2 class="text-h4 mb-4">Settings</h2>
     <v-form @submit.prevent="handleSubmit">
-      <v-text-field v-model="email" label="Email"></v-text-field>
-      <v-text-field v-model="password" label="New Password" type="password"></v-text-field>
+      <!-- Email field je read-only -->
+      <v-text-field
+          v-model="email"
+          label="Email"
+          readonly
+          outlined
+          disabled
+      ></v-text-field>
+
+      <!-- Pole pro nové heslo -->
+      <v-text-field
+          v-model="password"
+          label="New Password"
+          type="password"
+          outlined
+      ></v-text-field>
+
+      <!-- Tlačítko pro uložení změn -->
       <v-btn type="submit" color="primary" :loading="isLoading">Save Changes</v-btn>
+
+      <!-- Zobrazení chyb a úspěšných zpráv -->
       <v-alert v-if="error" type="error" class="mt-4">{{ error }}</v-alert>
       <v-alert v-if="success" type="success" class="mt-4">{{ success }}</v-alert>
     </v-form>
@@ -22,11 +40,11 @@ export default defineComponent({
   name: 'Settings',
   setup() {
     const authStore = useAuthStore();
-    const email = ref(authStore.user?.email || '');
-    const password = ref('');
-    const error = ref('');
-    const success = ref('');
-    const isLoading = ref(false);
+    const email = ref(authStore.user?.email || ''); // Email je pouze pro čtení
+    const password = ref(''); // Pole pro nové heslo
+    const error = ref(''); // Chybová zpráva
+    const success = ref(''); // Úspěšná zpráva
+    const isLoading = ref(false); // Načítací stav
 
     const handleSubmit = async () => {
       try {
@@ -36,8 +54,9 @@ export default defineComponent({
         }
 
         isLoading.value = true;
-        await authStore.updateUser(email.value, password.value);
+        await authStore.updateUser(password.value); // Odesíláme pouze heslo
         success.value = 'Settings updated successfully';
+        password.value = ''; // Vyčistíme pole pro heslo po úspěšné aktualizaci
       } catch (err: any) {
         error.value = err.response?.data?.error || 'An error occurred';
       } finally {

@@ -35,22 +35,19 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
 
 // update a user
 const updateUser = async (req: AuthenticatedRequest, res: Response) => {
-  const { email, password } = req.body;
+  const { password } = req.body; // Přijímáme pouze heslo
+
+  if (!req.user) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
 
   try {
-    if (!req.user) {
-      return res.status(401).json({ error: 'User not authenticated' });
-    }
-
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (email) {
-      user.email = email;
-    }
-
+    // Aktualizujeme pouze heslo
     if (password) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -58,12 +55,14 @@ const updateUser = async (req: AuthenticatedRequest, res: Response) => {
 
     await user.save();
 
+    // Vracíme pouze token (pokud se změní)
     const token = jwt.sign({ _id: user._id }, process.env.SECRET as string, { expiresIn: '3d' });
-    res.status(200).json({ email: user.email, token });
+    res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
   }
 };
+
 // delete a user
 const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
   try {

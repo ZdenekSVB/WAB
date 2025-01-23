@@ -18,14 +18,19 @@
                 style="max-width: 100%; height: auto;"
             ></v-img>
             <p><strong>Added:</strong> {{ formatDate(plant.createdAt) }}</p>
-            <p><strong>Likes:</strong> {{ plant.likes || 0 }}</p>
-            <v-btn
-                v-if="plant.user_id !== authStore.user?._id"
-                color="primary"
-                @click="likePlant(plant._id)"
-            >
-              Like
-            </v-btn>
+            <!-- Lajkování se znakem srdce -->
+            <div class="d-flex align-center">
+              <v-btn
+                  icon
+                  @click="toggleLike(plant)"
+                  :disabled="!authStore.user || loadingLike"
+              >
+<span :style="{ color: plant.likedBy.includes(authStore.user?.email ?? '') ? 'red' : 'grey', fontSize: '36px' }">
+  {{ plant.likedBy.includes(authStore.user?.email ?? '') ? '♥' : '♡' }}
+</span>
+              </v-btn>
+              <span class="ml-2" style="font-size: 24px;">{{ plant.likes || 0 }}</span>
+            </div>
           </v-card-text>
         </v-card>
       </v-list-item>
@@ -38,7 +43,7 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useAuthStore } from '../stores/authStore';
 import { formatDistanceToNow } from 'date-fns';
-import api from '../utils/api'; // Použij upravenou instanci axios
+import api from '../utils/api';
 
 export default defineComponent({
   name: 'BrowsePlants',
@@ -46,6 +51,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const plants = ref<any[]>([]);
     const loading = ref(true);
+    const loadingLike = ref(false);
 
     onMounted(async () => {
       await fetchPlants();
@@ -54,8 +60,11 @@ export default defineComponent({
 
     const fetchPlants = async () => {
       try {
-        const response = await api.get('/plants/all-plants'); // Použij `api` místo `axios`
-        plants.value = response.data;
+        const response = await api.get('/plants/other-users-plants');
+        plants.value = response.data.map((plant: any) => ({
+          ...plant,
+          likedBy: plant.likedBy || [], // Ensure likedBy is always an array
+        }));
       } catch (error) {
         console.error('Error fetching plants:', error);
       }
@@ -65,12 +74,42 @@ export default defineComponent({
       return formatDistanceToNow(new Date(date), { addSuffix: true });
     };
 
-    const likePlant = async (plantId: string) => {
+    const toggleLike = async (plant: any) => {
+      if (loadingLike.value || !authStore.user) {
+        console.error('User is not logged in or loadingLike is true');
+        return;
+      }
+      loadingLike.value = true;
+
       try {
-        await api.post(`/plants/like/${plantId}`); // Použij `api` místo `axios`
-        await fetchPlants(); // Obnov seznam rostlin po lajkování
-      } catch (error) {
-        console.error('Error liking plant:', error);
+        const userEmail = authStore.user.email; // Používáme email místo _id
+        if (!userEmail) {
+          throw new Error('User email is undefined');
+        }
+
+        console.log('Toggling like for plant:', plant._id);
+        console.log('Current likedBy:', plant.likedBy);
+        console.log('Current user email:', userEmail);
+
+        if (plant.likedBy.includes(userEmail)) {
+          // Unlike the plant
+          await api.post(`/plants/unlike/${plant._id}`);
+          plant.likes -= 1;
+          plant.likedBy = plant.likedBy.filter((email: string) => email !== userEmail);
+        } else {
+          // Like the plant
+          await api.post(`/plants/like/${plant._id}`);
+          plant.likes += 1;
+          plant.likedBy.push(userEmail);
+        }
+      } catch (error: any) {
+        if (error.response?.status === 400) {
+          console.error('User has already liked this plant:', error.response.data.error);
+        } else {
+          console.error('Error toggling like:', error);
+        }
+      } finally {
+        loadingLike.value = false;
       }
     };
 
@@ -78,8 +117,9 @@ export default defineComponent({
       plants,
       loading,
       formatDate,
-      likePlant,
+      toggleLike,
       authStore,
+      loadingLike,
     };
   },
 });

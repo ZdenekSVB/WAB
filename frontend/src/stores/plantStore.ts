@@ -21,10 +21,13 @@ export const usePlantStore = defineStore('plant', () => {
 
   const fetchPlants = async () => {
     try {
-      const response = await axios.get('/api/plants', {
+      const response = await axios.get('/api/plants/other-users-plants', {
         headers: { Authorization: `Bearer ${authStore.user?.token}` },
       });
-      plants.value = response.data;
+      plants.value = response.data.map((plant: any) => ({
+        ...plant,
+        likedBy: plant.likedBy || [], // Ensure likedBy is always an array
+      }));
     } catch (error) {
       console.error('Error fetching plants:', error);
     }

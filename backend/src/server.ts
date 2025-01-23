@@ -6,8 +6,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/user';
 import plantRoutes from './routes/plants';
-import messageRoutes from './routes/message'; // Importuj routy pro zprávy
-import Message from './models/messageModel'; // Importuj model zpráv
+import messageRoutes from './routes/message';
+import Message from './models/messageModel';
 import path from 'path';
 
 dotenv.config();
@@ -16,7 +16,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000', // Povolení připojení z frontendu
+        origin: 'http://localhost:3000',
         methods: ['GET', 'POST'],
     },
 });
@@ -33,27 +33,28 @@ app.use('/uploads', express.static(uploadsPath));
 // Routy
 app.use('/api/user', userRoutes);
 app.use('/api/plants', plantRoutes);
-app.use('/api', messageRoutes); // Použití rout pro zprávy
+app.use('/api', messageRoutes);
 
 // Socket.IO připojení
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
 
-    // Poslouchání zpráv v chatu
     socket.on('sendMessage', async (message: { user: string; text: string }) => {
         try {
+            console.log('Message received:', message);
             const newMessage = new Message({
                 user: message.user,
                 text: message.text,
+                createdAt: new Date(),
             });
             await newMessage.save();
-            io.emit('receiveMessage', message); // Odeslání zprávy všem klientům
+            console.log('Message saved:', newMessage);
+            io.emit('receiveMessage', newMessage);
         } catch (error) {
             console.error('Error saving message:', error);
         }
     });
 
-    // Odpojení uživatele
     socket.on('disconnect', () => {
         console.log('A user disconnected:', socket.id);
     });

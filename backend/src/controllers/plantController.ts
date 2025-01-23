@@ -38,42 +38,6 @@ const getUserPlants = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 
-// Lajkování rostliny
-const likePlant = async (req: AuthenticatedRequest, res: Response) => {
-  const { plantId } = req.params;
-  const userId = req.user?._id;
-
-  if (!userId) {
-    return res.status(401).json({ error: 'User not authenticated' });
-  }
-
-  try {
-    const plant = await Plant.findById(plantId);
-    if (!plant) {
-      return res.status(404).json({ error: 'Plant not found' });
-    }
-
-    // Uživatel nemůže lajkovat svou vlastní rostlinu
-    if (plant.user_id === userId) {
-      return res.status(400).json({ error: 'You cannot like your own plant' });
-    }
-
-    // Uživatel může lajkovat pouze jednou
-    if (plant.likedBy.includes(userId)) {
-      return res.status(400).json({ error: 'You have already liked this plant' });
-    }
-
-    plant.likes += 1;
-    plant.likedBy.push(userId);
-    await plant.save();
-
-    res.status(200).json(plant);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
-
 const getPlant = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -146,7 +110,81 @@ const deletePlant = async (req: Request, res: Response) => {
   }
 };
 
+const likePlant = async (req: AuthenticatedRequest, res: Response) => {
+  const { plantId } = req.params;
+  const userEmail = req.user?.email; // Používáme email místo _id
+
+  if (!userEmail) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
+
+  try {
+    const plant = await Plant.findById(plantId);
+    if (!plant) {
+      return res.status(404).json({ error: 'Plant not found' });
+    }
+
+    if (plant.user_id === req.user?._id) {
+      return res.status(400).json({ error: 'You cannot like your own plant' });
+    }
+
+    if (plant.likedBy.includes(userEmail)) {
+      return res.status(400).json({ error: 'You have already liked this plant' });
+    }
+
+    plant.likes += 1;
+    plant.likedBy.push(userEmail); // Ukládáme email uživatele
+    await plant.save();
+
+    res.status(200).json(plant);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+const unlikePlant = async (req: AuthenticatedRequest, res: Response) => {
+  const { plantId } = req.params;
+  const userEmail = req.user?.email; // Používáme email místo _id
+
+  if (!userEmail) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
+
+  try {
+    const plant = await Plant.findById(plantId);
+    if (!plant) {
+      return res.status(404).json({ error: 'Plant not found' });
+    }
+
+    if (plant.likedBy.includes(userEmail)) {
+      plant.likes -= 1;
+      plant.likedBy = plant.likedBy.filter((email: string) => email !== userEmail); // Odebereme email uživatele
+      await plant.save();
+      res.status(200).json(plant);
+    } else {
+      res.status(400).json({ error: 'You have not liked this plant' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+const getOtherUsersPlants = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const user_id = req.user?._id;
+    const plants = await Plant.find({ user_id: { $ne: user_id } }).sort({ createdAt: -1 });
+    res.status(200).json(plants);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 export default {
+  getOtherUsersPlants,
+  unlikePlant,
   createPlant,
   getAllPlants,
   getMyPlants,

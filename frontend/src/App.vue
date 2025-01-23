@@ -8,13 +8,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import Navbar from './components/Navbar.vue';
+import { useAuthStore } from './stores/authStore';
 
 export default defineComponent({
   name: 'App',
   components: {
     Navbar,
+  },
+  setup() {
+    const authStore = useAuthStore();
+
+    // Inicializace uživatele při spuštění aplikace
+    onMounted(() => {
+      authStore.initialize();
+    });
+
+    return {};
   },
 });
 </script>

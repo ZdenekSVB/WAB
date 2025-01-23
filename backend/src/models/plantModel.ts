@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import mongoose, { Document, } from 'mongoose';
 
 interface IPlant extends Document {
   name: string;
@@ -10,7 +10,7 @@ interface IPlant extends Document {
   likedBy: string[];
 }
 
-const plantSchema: MongooseSchema<IPlant> = new MongooseSchema({
+const plantSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -36,7 +36,7 @@ const plantSchema: MongooseSchema<IPlant> = new MongooseSchema({
     default: 0,
   },
   likedBy: {
-    type: [String],
+    type: [String], // Ukládáme emaily uživatelů
     default: [],
   },
 }, { timestamps: true });

@@ -2,33 +2,34 @@ import express, { Request, Response } from 'express';
 import plantController from '../controllers/plantController';
 import requireAuth from '../middleware/requireAuth';
 
-const { createPlant, getPlant, deletePlant, updatePlant } = plantController;
-
 const router = express.Router();
 
-// require auth for all plant routes
+// Vyžaduj autentizaci pro všechny routy
 router.use(requireAuth);
 
 // GET rostliny přihlášeného uživatele
-router.get('/my-plants', plantController.getMyPlants);
+router.get('/my-plants', (req: Request, res: Response) => plantController.getMyPlants(req, res));
 
 // GET všechny rostliny (pro prohlížení)
-router.get('/all-plants', plantController.getAllPlants);
+router.get('/all-plants', (req: Request, res: Response) => plantController.getAllPlants(req, res));
 
-// POST lajkování rostliny
-router.post('/like/:plantId', plantController.likePlant);
+// GET rostliny ostatních uživatelů
+router.get('/other-users-plants', (req: Request, res: Response) => plantController.getOtherUsersPlants(req, res));
 
+router.post('/like/:plantId', (req: Request, res: Response) => plantController.likePlant(req, res));
 
-// GET a single plant
-router.get('/:id', (req: Request, res: Response) => getPlant(req, res));
+router.post('/unlike/:plantId', (req: Request, res: Response) => plantController.unlikePlant(req, res));
 
-// POST a new plant
-router.post('/', (req: Request, res: Response) => createPlant(req, res));
+// GET jedna rostlina
+router.get('/:id', (req: Request, res: Response) => plantController.getPlant(req, res));
 
-// DELETE a plant
-router.delete('/:id', (req: Request, res: Response) => deletePlant(req, res));
+// POST nová rostlina
+router.post('/', (req: Request, res: Response) => plantController.createPlant(req, res));
 
-// UPDATE a plant
-router.patch('/:id', (req: Request, res: Response) => updatePlant(req, res));
+// DELETE rostlina
+router.delete('/:id', (req: Request, res: Response) => plantController.deletePlant(req, res));
+
+// UPDATE rostlina
+router.patch('/:id', (req: Request, res: Response) => plantController.updatePlant(req, res));
 
 export default router;

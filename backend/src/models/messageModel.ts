@@ -1,9 +1,9 @@
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 
 interface IMessage extends Document {
-    user: string; // Uživatel, který zprávu odeslal
-    text: string; // Text zprávy
-    createdAt: Date; // Datum vytvoření zprávy
+    user: string;
+    text: string;
+    createdAt: Date; // Přidej pole pro čas
 }
 
 const messageSchema: MongooseSchema<IMessage> = new MongooseSchema({
@@ -17,7 +17,7 @@ const messageSchema: MongooseSchema<IMessage> = new MongooseSchema({
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now, // Automaticky přidá čas při vytvoření
     },
 });
 

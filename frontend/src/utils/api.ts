@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
-// Vytvoř instanci axios
 const api = axios.create({
     baseURL: '/api', // Základní URL pro všechny požadavky
 });
