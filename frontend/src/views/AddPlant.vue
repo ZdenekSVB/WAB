@@ -7,19 +7,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import PlantForm from '../components/PlantForm.vue'; // Import PlantForm
+import PlantForm from '../components/PlantForm.vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'AddPlant', // Změna názvu komponenty
+  name: 'AddPlant',
   components: {
-    PlantForm, // Použití PlantForm
+    PlantForm,
   },
   setup() {
     const router = useRouter();
 
     const handlePlantAdded = () => {
-      router.push('/plants'); // Přesměrování na seznam rostlin
+      router.push('/plants');
     };
 
     return {

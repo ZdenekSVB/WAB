@@ -18,16 +18,15 @@
                 style="max-width: 100%; height: auto;"
             ></v-img>
             <p><strong>Added:</strong> {{ formatDate(plant.createdAt) }}</p>
-            <!-- Lajkování se znakem srdce -->
             <div class="d-flex align-center">
               <v-btn
                   icon
                   @click="toggleLike(plant)"
                   :disabled="!authStore.user || loadingLike"
               >
-<span :style="{ color: plant.likedBy.includes(authStore.user?.email ?? '') ? 'red' : 'grey', fontSize: '36px' }">
-  {{ plant.likedBy.includes(authStore.user?.email ?? '') ? '♥' : '♡' }}
-</span>
+                <span :style="{ color: plant.likedBy.includes(authStore.user?.email ?? '') ? 'red' : 'grey', fontSize: '36px' }">
+                  {{ plant.likedBy.includes(authStore.user?.email ?? '') ? '♥' : '♡' }}
+                </span>
               </v-btn>
               <span class="ml-2" style="font-size: 24px;">{{ plant.likes || 0 }}</span>
             </div>
@@ -63,7 +62,7 @@ export default defineComponent({
         const response = await api.get('/plants/other-users-plants');
         plants.value = response.data.map((plant: any) => ({
           ...plant,
-          likedBy: plant.likedBy || [], // Ensure likedBy is always an array
+          likedBy: plant.likedBy || [],
         }));
       } catch (error) {
         console.error('Error fetching plants:', error);
@@ -82,22 +81,16 @@ export default defineComponent({
       loadingLike.value = true;
 
       try {
-        const userEmail = authStore.user.email; // Používáme email místo _id
+        const userEmail = authStore.user.email;
         if (!userEmail) {
           throw new Error('User email is undefined');
         }
 
-        console.log('Toggling like for plant:', plant._id);
-        console.log('Current likedBy:', plant.likedBy);
-        console.log('Current user email:', userEmail);
-
         if (plant.likedBy.includes(userEmail)) {
-          // Unlike the plant
           await api.post(`/plants/unlike/${plant._id}`);
           plant.likes -= 1;
           plant.likedBy = plant.likedBy.filter((email: string) => email !== userEmail);
         } else {
-          // Like the plant
           await api.post(`/plants/like/${plant._id}`);
           plant.likes += 1;
           plant.likedBy.push(userEmail);
