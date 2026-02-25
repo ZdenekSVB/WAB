@@ -4,6 +4,8 @@ Tento projekt je full-stack webová aplikace pro sledování cvičení. Je posta
 
 Projekt byl zaměřen na backendovou část a na práci samostatně na projektu
 
+https://www.figma.com/design/v4MLzjItFNuQUpAuHCvHX6/Webov%C3%A1-aplikace-backend---projekt?node-id=0-1&t=RknGbpeKtbmudwHn-1
+
 ## 🛠 Použité technologie
 
 ### Backend
